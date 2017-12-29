@@ -1,0 +1,31 @@
+<header class="main-header">
+  <nav class="navbar navbar-static-top">
+    <div class="container">
+      <div class="navbar-header">
+        <ul>
+          <a [routerLink]="['/']" class="navbar-brand"><b>Caveirinha</b></a>
+          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar-collapse">
+            <i class="fa fa-bars"></i>
+          </button>
+        </ul>
+      </div>
+
+      <!-- Collect the nav links, forms, and other content for toggling -->
+      <div class="collapse navbar-collapse pull-left" id="navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li class="dropdown active">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Ocorrência <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a [routerLink]="['/cadastro']" >Cadastrar Ocorrência</a></li>
+                <li><a [routerLink]="['/consulta']">Consultar Ocorrência</a></li>
+              </ul>
+          </li>
+          <li><a href="#">Relatórios</a></li>
+        </ul>
+      </div>
+      <!-- /.navbar-collapse -->
+
+    </div>
+    <!-- /.container-fluid -->
+  </nav>
+</header>

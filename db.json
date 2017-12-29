@@ -1,0 +1,53 @@
+{
+  "ocorrencias": [
+    {
+      "id": 1,
+      "rua": "Rua Mariana",
+      "bairro": "Eletronorte",
+      "numero": "2815",
+      "idDp": 1,
+      "tipoOcorrencia": "Roubo",
+      "situacao": "Pendente",
+      "veiculoId": 1
+    },
+    {
+      "id": 2,
+      "rua": "Rua Machado",
+      "bairro": "Eletronorte",
+      "numero": "2815",
+      "idDp": 1,
+      "tipoOcorrencia": "Roubo",
+      "situacao": "Pendente",
+      "veiculoId": 1
+    },
+    {
+      "id": 3,
+      "rua": "Rua Registro",
+      "bairro": "Eletronorte",
+      "numero": "2815",
+      "idDp": 1,
+      "tipoOcorrencia": "Roubo",
+      "situacao": "Pendente",
+      "veiculoId": 1
+    }
+  ],
+  "dp": [
+    {
+      "id": 1,
+      "nome": "5º DP"
+    }
+  ],
+  "veiculo": [
+    {
+      "id": 1,
+      "placa": "NBX-6611",
+      "chassis": "6666666666666",
+      "numeroMotor": "777777777777",
+      "cor": "branco(a)",
+      "tipoVeiculo": "Carro",
+      "descricao": "Biz preta 2001",
+      "nomeProprietario": "Thiago Barbosa",
+      "telefoneProprietario": "69 993177265"
+    }
+  ]
+}

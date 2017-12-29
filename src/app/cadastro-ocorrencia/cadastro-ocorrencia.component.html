@@ -1,0 +1,143 @@
+<section class="content-header">
+</section>
+
+<section class="content">
+  <section class="invoice">
+
+        <form [formGroup]="ocorrenciaForm" novalidate>
+          <div class="row">
+            <div class="col-xs-12">
+              <h2 class="page-header">
+                <i class="fa fa-pencil"></i> Cadastro de ocorrência
+              </h2>
+            </div>
+          </div>
+
+          <div class="row invoice-info">
+            <div class="col-xs-12">
+              <p class="lead">Local da ocorrência:</p>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+              <cav-input errorMessage="Campo obrigatório e com no mínimo 3 caracteres!" label="Rua">
+                <input formControlName="rua" autocomplete="off" type="text" class="form-control" placeholder="Rua">
+              </cav-input>
+            </div>
+            <div class="col-sm-2 col-xs-6">
+              <cav-input errorMessage="Campo obrigatório e com no mínimo 3 caracteres!" label="Bairro">
+                <input formControlName="bairro" autocomplete="off" type="text" class="form-control" placeholder="bairro">
+              </cav-input>
+            </div>
+            <div class="col-sm-4 col-xs-6">
+              <cav-input errorMessage="Somente números" label="Número">
+                <input formControlName="numero" autocomplete="off" type="text" class="form-control" placeholder="numero">
+              </cav-input>
+            </div>
+            <!-- /.col -->
+          </div>
+          <!-- /.row -->
+
+          <!--  row -->
+          <div class="row">
+            <div class="col-xs-12">
+              <p class="lead">Detalhes do veículo:</p>
+            </div>
+            <div class="col-sm-2 col-xs-6">
+              <cav-input errorMessage="Campo obrigatório" label="Placa">
+                <input formControlName="placa" autocomplete="off" type="text" class="form-control" placeholder="placa">
+              </cav-input>
+            </div>
+            <div class="col-sm-2 col-xs-6">
+              <div class="form-group">
+                <cav-input errorMessage="Campo obrigatório" label="Chassis">
+                  <input formControlName="chassis" autocomplete="off" type="text" class="form-control" placeholder="chassis">
+                </cav-input>
+              </div>
+            </div>
+            <div class="col-sm-2 col-xs-6">
+              <cav-input errorMessage="Campo obrigatório" label="Nº Motor">
+                <input formControlName="numeroMotor" autocomplete="off" type="text" class="form-control" placeholder="numeroMotor">
+              </cav-input>
+            </div>
+            <div class="col-sm-2 col-xs-6">
+              <cav-input errorMessage="Campo obrigatório" label="Cor">
+                <input formControlName="cor" autocomplete="off" type="text" class="form-control" placeholder="cor">
+              </cav-input>
+            </div>
+            <div class="col-sm-4 col-xs-12">
+              <div class="form-group">
+                <label class="control-label sr-only" for="inputSuccess"><i class="fa fa-check"></i> Tipo</label>
+                <select class="form-control">
+                  <option>Carro</option>
+                  <option>Moto</option>
+                  <option>Triciculo</option>
+                  <option>Outros</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-sm-12 col-xs-12">
+              <cav-input errorMessage="Campo obrigatório" label="Descrição">
+                <input formControlName="descricao" autocomplete="off" type="text" class="form-control" placeholder="Descrição">
+              </cav-input>
+            </div>
+
+          </div>
+          <!-- /.row -->
+
+          <!--  row -->
+          <div class="row">
+            <div class="col-xs-12">
+              <p class="lead">Dados do proprietário:</p>
+            </div>
+            <div class="col-sm-4 col-xs-6">
+              <cav-input errorMessage="Campo obrigatório" label="Nome">
+                <input formControlName="nomeProprietario" autocomplete="off" type="text" class="form-control" placeholder="nome">
+              </cav-input>
+            </div>
+            <div class="col-sm-2 col-xs-6">
+              <cav-input errorMessage="Campo obrigatório" label="telefoneProprietario">
+                <input formControlName="telefoneProprietario" autocomplete="off" type="text" class="form-control" placeholder="Telefone do Proprietário">
+              </cav-input>
+            </div>
+          </div>
+          <!-- /.row -->
+
+          <!--  row -->
+          <div class="row">
+            <div class="col-xs-12">
+              <p class="lead">Detalhes da Ocorrência:</p>
+            </div>
+            <div class="col-sm-2 col-xs-6">
+              <div class="form-group">
+                <label class="control-label sr-only" for="inputSuccess"><i class="fa fa-check"></i> Local de Registro</label>
+                <select class="form-control">
+                  <option>1º DP</option>
+                  <option>2º DP</option>
+                  <option>3º DP</option>
+                  <option>4º DP</option>
+                  <option>5º DP</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-sm-4 col-xs-6">
+              <div class="form-group">
+                <label class="control-label sr-only" for="inputSuccess"><i class="fa fa-check"></i> Tipo</label>
+                <select class="form-control">
+                  <option>Roubo</option>
+                  <option>Furto</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <!-- /.row -->
+
+        </form>
+
+        <div class="row">
+          <div class="col-xs-12">
+            <a href="order-summary.html" class="btn btn-success pull-right"><i class="fa fa-check-square-o"></i> Registrar Ocorrência
+            </a>
+          </div>
+        </div>
+
+    </section>
+</section>

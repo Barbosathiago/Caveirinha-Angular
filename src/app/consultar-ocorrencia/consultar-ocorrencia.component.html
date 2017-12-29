@@ -1,0 +1,108 @@
+<section class="content-header">
+</section>
+
+<section class="content">
+  <section class="invoice">
+
+        <form>
+          <div class="row">
+            <div class="col-xs-12">
+              <h2 class="page-header">
+                <i class="fa fa-search"></i> Consultar Ocorrência
+              </h2>
+            </div>
+          </div>
+
+          <div class="row invoice-info">
+            <div class="col-xs-12">
+              <p class="lead">Filtros da pesquisa:</p>
+            </div>
+            <div class="col-sm-2 col-xs-6">
+              <div class="form-group">
+                <label class="control-label sr-only" for="inputSuccess"><i class="fa fa-check"></i> Placa</label>
+                <input type="text" class="form-control" id="inputSuccess" placeholder="Placa">
+                <span class="help-block"></span>
+              </div>
+            </div>
+            <div class="col-sm-2 col-xs-6">
+              <div class="form-group">
+                <label class="control-label sr-only" for="inputSuccess"><i class="fa fa-check"></i> Nº Motor</label>
+                <input type="text" class="form-control" id="inputSuccess" placeholder="Nº Motor">
+                <!-- <span class="help-block"><i class="fa fa-check"></i> Ok</span> -->
+              </div>
+            </div>
+            <div class="col-sm-4 col-xs-12">
+              <div class="form-group">
+                <label class="control-label sr-only" for="inputSuccess"><i class="fa fa-check"></i> Chassis</label>
+                <input type="text" class="form-control" id="inputSuccess" placeholder="Chassis">
+                <!-- <span class="help-block"><i class="fa fa-remove"></i> Help block with error</span> -->
+              </div>
+
+            </div>
+            <div class="col-sm-2 col-xs-12">
+              <div class="form-group inline">
+                <div class="radio">
+                  <label>
+                    <input name="optionsRadios" id="optionsRadios1" value="option1" checked="" type="radio">
+                    Recuperado
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input name="optionsRadios" id="optionsRadios2" value="option2" type="radio">
+                    Pendente
+                  </label>
+                </div>
+                <div class="radio">
+                  <label>
+                    <input name="optionsRadios" id="optionsRadios3" value="option3" type="radio">
+                    Ambos
+                  </label>
+                </div>
+              </div>
+            </div>
+            <!-- /.col -->
+          </div>
+          <!-- /.row -->
+
+          <!--  row -->
+
+        </form>
+
+        <div class="row">
+          <div class="col-xs-12">
+            <a href="order-summary.html" class="btn btn-success pull-right"><i class="fa fa-search"></i> Pesquisar
+            </a>
+          </div>
+        </div>
+
+  </section>
+  <section class="invoice">
+    <div class="box-body table-responsive no-padding">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>Placa</th>
+              <th>Tipo Veiculo</th>
+              <th>Chassis</th>
+              <th>Nº Motor</th>
+              <th>Descrição</th>
+              <th>Proprietário</th>
+              <th>Situação</th>
+            </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let ocorrencia of ocorrencias">
+            <td>{{ocorrencia.veiculo.placa}}</td>
+            <td>{{ocorrencia.veiculo.tipoVeiculo}}</td>
+            <td>{{ocorrencia.veiculo.chassis}}</td>
+            <td>{{ocorrencia.veiculo.numeroMotor}}</td>
+            <td>{{ocorrencia.veiculo.descricao}}</td>
+            <td>{{ocorrencia.veiculo.nomeProprietario}}</td>
+            <td><span class="label label-warning">{{ocorrencia.situacao}}</span></td>
+          </tr>
+        </tbody>
+      </table>
+      </div>
+  </section>
+</section>
