@@ -10,6 +10,7 @@ import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
 import { ConsultarOcorrenciaComponent } from './consultar-ocorrencia/consultar-ocorrencia.component';
 import { SharedModule } from './shared/shared.module';
+import { TextMaskModule } from 'angular2-text-mask';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { SharedModule } from './shared/shared.module';
     ConsultarOcorrenciaComponent,
   ],
   imports: [
+    TextMaskModule,
     HttpModule,
     BrowserModule,
     RouterModule.forRoot(ROUTES),

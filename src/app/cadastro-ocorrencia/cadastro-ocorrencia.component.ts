@@ -4,6 +4,7 @@ import {FormGroup, FormBuilder, Validators, AbstractControl} from '@angular/form
 import {OcorrenciasService} from '../shared/services/ocorrencias.service'
 import {SelectOption} from '../shared/select/select-option.model'
 import {Ocorrencia, Veiculo, Dp} from '../shared/models/ocorrencia.model'
+import {chassis,numeroCasa,placa} from '../shared/text-masks'
 
 @Component({
   selector: 'cav-cadastro-ocorrencia',
@@ -11,7 +12,14 @@ import {Ocorrencia, Veiculo, Dp} from '../shared/models/ocorrencia.model'
 })
 export class CadastroOcorrenciaComponent implements OnInit {
 
+
   ocorrenciaForm: FormGroup
+
+  placaPattern = [/[A-Z]/i,/[A-Z]/i,/[A-Z]/i,'-',/\d/,/\d/,/\d/,/\d/]
+
+  numeroPattern = numeroCasa
+
+  chassisPattern = chassis
 
   numberPattern = /^[0-9]*$/
 
@@ -44,7 +52,7 @@ export class CadastroOcorrenciaComponent implements OnInit {
       bairro: this.formBuilder.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(250)]),
       numero: this.formBuilder.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(250), Validators.pattern(this.numberPattern)]),
       placa: this.formBuilder.control('', [Validators.required, Validators.minLength(8), Validators.maxLength(8)]),
-      chassis: this.formBuilder.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(120)]),
+      chassis: this.formBuilder.control('', [Validators.required, Validators.minLength(17), Validators.maxLength(17)]),
       numeroMotor: this.formBuilder.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(15)]),
       cor: this.formBuilder.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]),
       tipoVeiculo: this.formBuilder.control('', [Validators.required]),
@@ -65,7 +73,7 @@ registraOcorrencia(values){
   let ocorrencia: Ocorrencia = new Ocorrencia(null
     ,values.rua, values.bairro,
     values.numero,dp, values.tipoOcorrencia,
-    null, veiculo
+    'PENDENTE', veiculo
   )
   console.log(ocorrencia)
   this.ocorrenciasService.registraOcorrencia(ocorrencia).subscribe((message: string) => {

@@ -23,13 +23,13 @@
               </cav-input>
             </div>
             <div class="col-sm-2 col-xs-6">
-              <cav-input errorMessage="Campo obrigatório e com no mínimo 3 caracteres!" label="Bairro">
-                <input formControlName="bairro" autocomplete="off" type="text" class="form-control" placeholder="Bairro">
+              <cav-input errorMessage="Somente números" label="Número">
+                <input [textMask]="{mask: numeroPattern}" formControlName="numero" autocomplete="off" type="text" class="form-control" placeholder="Número">
               </cav-input>
             </div>
             <div class="col-sm-4 col-xs-6">
-              <cav-input errorMessage="Somente números" label="Número">
-                <input formControlName="numero" autocomplete="off" type="text" class="form-control" placeholder="Número">
+              <cav-input errorMessage="Campo obrigatório e com no mínimo 3 caracteres!" label="Bairro">
+                <input formControlName="bairro" autocomplete="off" type="text" class="form-control" placeholder="Bairro">
               </cav-input>
             </div>
             <!-- /.col -->
@@ -43,13 +43,13 @@
             </div>
             <div class="col-sm-2 col-xs-6">
               <cav-input errorMessage="Campo obrigatório" label="Placa">
-                <input formControlName="placa" autocomplete="off" type="text" class="form-control" placeholder="Placa">
+                <input [textMask]="{mask: placaPattern}" formControlName="placa" autocomplete="off" type="text" class="form-control" placeholder="Placa">
               </cav-input>
             </div>
             <div class="col-sm-2 col-xs-6">
               <div class="form-group">
                 <cav-input errorMessage="Campo obrigatório" label="Chassis">
-                  <input formControlName="chassis" autocomplete="off" type="text" class="form-control" placeholder="Chassis">
+                  <input [textMask]="{mask: chassisPattern}" formControlName="chassis" autocomplete="off" type="text" class="form-control" placeholder="Chassis">
                 </cav-input>
               </div>
             </div>
