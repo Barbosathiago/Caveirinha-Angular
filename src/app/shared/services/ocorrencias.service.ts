@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core'
-import {Http} from '@angular/http'
+import {Http, Headers, RequestOptions} from '@angular/http'
 
 import {Observable} from 'rxjs/Observable'
 import 'rxjs/add/operator/map'
@@ -13,6 +13,16 @@ import {ErrorHandler} from '../app.error-handler'
 @Injectable()
 export class OcorrenciasService {
   constructor(private http: Http){}
+
+  registraOcorrencia(ocorrencia: Ocorrencia){
+    const headers = new Headers()
+    headers.append('Content-Type', 'application/json')
+    return this.http.post(`${CAVEIRINHA_API}/ocorrencias`,
+                          JSON.stringify(ocorrencia),
+                          new RequestOptions({headers: headers})
+                        ).map(response => response.json())
+                        .map(message => message['message'])
+  }
 
   ocorrencias():Observable<Ocorrencia[]>{
     return this.http.get(`${CAVEIRINHA_API}/ocorrencias`)

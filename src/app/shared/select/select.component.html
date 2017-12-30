@@ -1,0 +1,6 @@
+<div class=form-group>
+  <label class="control-label sr-only" for="inputSuccess"><i class="fa fa-check"></i> {{label}}</label>
+  <select class="form-control">
+    <option *ngFor="let option of options" (click)="setValue(option.value)">{{option.option}}</option>
+  </select>
+</div>
