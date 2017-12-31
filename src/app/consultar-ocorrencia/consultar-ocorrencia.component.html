@@ -86,7 +86,7 @@
   </div>
   <section *ngIf="searched && ocorrencias.length > 0" class="invoice">
     <div class="box-body table-responsive no-padding">
-        <table class="table table-hover">
+        <table datatable class="table table-hover">
           <thead>
             <tr>
               <th>Placa</th>
@@ -100,12 +100,12 @@
           </thead>
           <tbody>
           <tr *ngFor="let ocorrencia of ocorrencias">
-            <td>{{ocorrencia.veiculo.placa}}</td>
-            <td>{{ocorrencia.veiculo.tipoVeiculo}}</td>
-            <td>{{ocorrencia.veiculo.chassis}}</td>
-            <td>{{ocorrencia.veiculo.numeroMotor}}</td>
-            <td>{{ocorrencia.veiculo.descricao}}</td>
-            <td>{{ocorrencia.veiculo.nomeProprietario}}</td>
+            <td><small>{{ocorrencia.veiculo.placa}}</small></td>
+            <td><small>{{ocorrencia.veiculo.tipoVeiculo}}</small></td>
+            <td><small>{{ocorrencia.veiculo.chassis}}</small></td>
+            <td><small>{{ocorrencia.veiculo.numeroMotor}}</small></td>
+            <td><small>{{ocorrencia.veiculo.descricao}}</small></td>
+            <td><small>{{ocorrencia.veiculo.nomeProprietario}}</small></td>
             <td><span class="label label-warning">{{ocorrencia.situacao}}</span></td>
           </tr>
         </tbody>
