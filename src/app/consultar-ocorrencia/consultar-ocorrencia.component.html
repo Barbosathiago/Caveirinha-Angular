@@ -20,26 +20,34 @@
             <div class="col-sm-2 col-xs-6">
               <div class="form-group">
                 <label class="control-label sr-only" for="inputSuccess"><i class="fa fa-check"></i> Placa</label>
-                <input type="text" class="form-control" id="inputSuccess" placeholder="Placa">
+                <input #iptPlaca type="text" class="form-control" id="inputSuccess" placeholder="Placa">
                 <span class="help-block"></span>
               </div>
             </div>
             <div class="col-sm-2 col-xs-6">
               <div class="form-group">
                 <label class="control-label sr-only" for="inputSuccess"><i class="fa fa-check"></i> Nº Motor</label>
-                <input type="text" class="form-control" id="inputSuccess" placeholder="Nº Motor">
+                <input type="text" #iptMotor class="form-control" id="inputSuccess" placeholder="Nº Motor">
                 <!-- <span class="help-block"><i class="fa fa-check"></i> Ok</span> -->
               </div>
             </div>
-            <div class="col-sm-4 col-xs-12">
+            <div class="col-sm-6 col-xs-12">
               <div class="form-group">
                 <label class="control-label sr-only" for="inputSuccess"><i class="fa fa-check"></i> Chassis</label>
-                <input type="text" class="form-control" id="inputSuccess" placeholder="Chassis">
+                <input type="text" #iptChassis class="form-control" id="inputSuccess" placeholder="Chassis">
                 <!-- <span class="help-block"><i class="fa fa-remove"></i> Help block with error</span> -->
               </div>
 
             </div>
             <div class="col-sm-2 col-xs-12">
+              <div class="form-group">
+                <button (click)="pesquisarOcorrencias(iptPlaca.value, iptMotor.value, iptChassis.value)" class="btn btn-success pull-right">
+                  <i class="fa fa-search"></i> Pesquisar
+                </button>
+              </div>
+
+            </div>
+            <!-- <div class="col-sm-2 col-xs-12">
               <div class="form-group inline">
                 <div class="radio">
                   <label>
@@ -60,7 +68,7 @@
                   </label>
                 </div>
               </div>
-            </div>
+            </div> -->
             <!-- /.col -->
           </div>
           <!-- /.row -->
@@ -69,15 +77,14 @@
 
         </form>
 
-        <div class="row">
-          <div class="col-xs-12">
-            <a href="order-summary.html" class="btn btn-success pull-right"><i class="fa fa-search"></i> Pesquisar
-            </a>
-          </div>
-        </div>
 
   </section>
-  <section class="invoice">
+  <div class="col-xs-12" *ngIf="ocorrencias.length === 0">
+    <p class="lead text-center">
+      Não foram encontradas ocorrências para sua busca.
+    </p>
+  </div>
+  <section *ngIf="searched && ocorrencias.length > 0" class="invoice">
     <div class="box-body table-responsive no-padding">
         <table class="table table-hover">
           <thead>

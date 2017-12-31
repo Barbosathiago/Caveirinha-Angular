@@ -8,12 +8,18 @@ import {Ocorrencia} from '../shared/models/ocorrencia.model'
 export class ConsultarOcorrenciaComponent implements OnInit {
 
   ocorrencias: Ocorrencia[]
+  searched: boolean = false
 
   constructor(private ocorrenciasService: OcorrenciasService) { }
 
   ngOnInit() {
-    this.ocorrenciasService.ocorrencias()
-      .subscribe(ocorrencias => this.ocorrencias = ocorrencias['ocorrencias'])
+  }
+
+  pesquisarOcorrencias(placa, motor, chassis){
+    if (!this.searched) {
+      this.searched = true
+    }
+    this.ocorrenciasService.ocorrencias(placa, motor, chassis, '').subscribe(result => this.ocorrencias = result['ocorrencias'])
   }
 
 }
