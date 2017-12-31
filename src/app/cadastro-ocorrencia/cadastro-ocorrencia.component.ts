@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {FormGroup, FormBuilder, Validators, AbstractControl} from '@angular/forms'
+import 'rxjs/add/operator/map'
+import {Observable} from 'rxjs/Observable'
 
 import {OcorrenciasService} from '../shared/services/ocorrencias.service'
 import {SelectOption} from '../shared/select/select-option.model'
@@ -39,6 +41,7 @@ export class CadastroOcorrenciaComponent implements OnInit {
     {option: '3º DP', value: '3º DP'},
     {option: '4º DP', value: '4º DP'},
   ]
+  dpOptions: SelectOption[] = [ ]
 
   ocorrenciaOptions: SelectOption[] = [
     {option: 'Roubo', value: 'ROUBO'},
@@ -61,6 +64,11 @@ export class CadastroOcorrenciaComponent implements OnInit {
       telefoneProprietario: this.formBuilder.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(80)]),
       dp: this.formBuilder.control('', [Validators.required]),
       tipoOcorrencia: this.formBuilder.control('', [Validators.required]),
+    })
+    this.ocorrenciasService.getAllDps().subscribe(dps => {
+      dps.map(dp => {
+        this.dpOptions.push(new SelectOption(dp.nome, dp.public_id))
+      })
     })
   }
 
