@@ -61,10 +61,22 @@ export class OcorrenciasService {
   }
 
   veiculos(id: number): Observable<Veiculo[]>{
-    return this.http.get(`${CAVEIRINHA_API}/veiculo/`)
+      return this.http.get(`${CAVEIRINHA_API}/veiculo/`)
       .map(response => response.json())
       .catch(ErrorHandler.handleError)
   }
+
+  registraVeiculo(veiculo: Veiculo): Observable<string>{
+    const headers = new Headers()
+    headers.append('Content-Type', 'application/json')
+
+    return this.http.post(`${CAVEIRINHA_API}/veiculos`,
+      JSON.stringify(veiculo),
+      new RequestOptions({headers: headers})
+    ).map(response => response.json()['public_id'])
+    .catch(ErrorHandler.handleError)
+  }
+
   veiculoById(id: number): Observable<Veiculo>{
     return this.http.get(`${CAVEIRINHA_API}/veiculo/${id}`)
       .map(reponse => reponse.json())
