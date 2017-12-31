@@ -19,6 +19,7 @@
       "testTsconfig": "tsconfig.spec.json",
       "prefix": "cav",
       "styles": [
+        "../node_modules/datatables.net-dt/css/jquery.dataTables.css",
         "../node_modules/font-awesome/css/font-awesome.min.css",
         "../node_modules/bootstrap/dist/css/bootstrap.min.css",
         "../node_modules/admin-lte/dist/css/AdminLTE.min.css",
@@ -27,6 +28,7 @@
       ],
       "scripts": [
         "../node_modules/jquery/dist/jquery.min.js",
+        "../node_modules/datatables.net/js/jquery.dataTables.js",
         "../node_modules/bootstrap/dist/js/bootstrap.min.js",
         "../node_modules/admin-lte/dist/js/adminlte.min.js"
       ],
