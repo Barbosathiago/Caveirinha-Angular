@@ -1,7 +1,7 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { HttpModule } from '@angular/http';
+import { HttpClientModule } from '@angular/common/http';
 import {ROUTES} from './app.routes'
 import {RouterModule} from '@angular/router'
 import { AppComponent } from './app.component';
@@ -22,7 +22,7 @@ import { TextMaskModule } from 'angular2-text-mask';
   ],
   imports: [
     TextMaskModule,
-    HttpModule,
+    HttpClientModule,
     BrowserModule,
     RouterModule.forRoot(ROUTES),
     SharedModule.forRoot(),
