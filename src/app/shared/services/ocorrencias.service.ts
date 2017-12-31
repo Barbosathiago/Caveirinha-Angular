@@ -3,6 +3,7 @@ import {Http, Headers, RequestOptions} from '@angular/http'
 
 import {Observable} from 'rxjs/Observable'
 import 'rxjs/add/operator/map'
+import 'rxjs/add/observable/forkJoin'
 import 'rxjs/add/operator/catch'
 
 import {Ocorrencia, Dp, Veiculo} from '../models/ocorrencia.model'
@@ -14,7 +15,14 @@ import {ErrorHandler} from '../app.error-handler'
 export class OcorrenciasService {
   constructor(private http: Http){}
 
-  registraOcorrencia(ocorrencia: Ocorrencia){
+  getTwoOcorrencias(id1: string, id2: string):Observable<Ocorrencia[]>{
+    return Observable.forkJoin(
+      this.http.get(`${CAVEIRINHA_API}/ocorrencias/${id1}`).map(reponse => reponse.json()).catch(ErrorHandler.handleError),
+      this.http.get(`${CAVEIRINHA_API}/ocorrencias/${id1}`).map(reponse => reponse.json()).catch(ErrorHandler.handleError)
+    )
+  }
+
+  registraOcorrencia(ocorrencia: Ocorrencia):Observable<string>{
     const headers = new Headers()
     headers.append('Content-Type', 'application/json')
     return this.http.post(`${CAVEIRINHA_API}/ocorrencias`,
