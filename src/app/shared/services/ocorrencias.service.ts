@@ -77,14 +77,19 @@ export class OcorrenciasService {
       .catch(ErrorHandler.handleError)
   }
 
-  dp():Observable<Dp[]>{
-    return this.http.get(`${CAVEIRINHA_API}/dp`)
-      .map(reponse => reponse.json())
+  getAllDps():Observable<Dp[]>{
+    return this.http.get(`${CAVEIRINHA_API}/dps`)
+      .map(response => {
+        var result = response.json()['dps']
+        console.log(result)
+        return result
+      })
       .catch(ErrorHandler.handleError)
   }
+
   dpById(id: number): Observable<Dp>{
     return this.http.get(`${CAVEIRINHA_API}/dp/${id}`)
-      .map(reponse => reponse.json())
+      .map(response => response.json())
       .catch(ErrorHandler.handleError)
   }
 
