@@ -35,12 +35,6 @@ export class CadastroOcorrenciaComponent implements OnInit {
     {option: 'Outros', value: 'OUTROS'}
   ]
 
-  dpOptions: SelectOption[] = [
-    {option: '1º DP', value: '1º DP'},
-    {option: '2º DP', value: '2º DP'},
-    {option: '3º DP', value: '3º DP'},
-    {option: '4º DP', value: '4º DP'},
-  ]
   dpOptions: SelectOption[] = [ ]
 
   ocorrenciaOptions: SelectOption[] = [
@@ -73,7 +67,7 @@ export class CadastroOcorrenciaComponent implements OnInit {
   }
 
 registraOcorrencia(values){
-  let dp: Dp = new Dp(null ,values.dp);
+  let dp: Dp = new Dp(values.dp, 'null');
   let veiculo: Veiculo = new  Veiculo(null, values.placa,
     values.chassis, values.numeroMotor, values.cor,
     values.tipoVeiculo, values.descricao, values.nomeProprietario,
@@ -84,9 +78,21 @@ registraOcorrencia(values){
     'PENDENTE', veiculo
   )
   console.log(ocorrencia)
-  this.ocorrenciasService.registraOcorrencia(ocorrencia).subscribe((message: string) => {
-    console.log(message)
-  })
+  this.ocorrenciasService.registraVeiculo(ocorrencia.veiculo).subscribe(result => {
+    ocorrencia.veiculo.public_id=result
+    this.ocorrenciasService.registraOcorrencia(ocorrencia).subscribe(message => console.log(message))
+  })  
+}
+
+testaServico(){
+  let ocorrencias = {}
+  this.ocorrenciasService.getTwoOcorrencias('d8c6b91a-4895-4795-9069-899c3b381ea2','088222c2-4712-4c31-bbb8-6b005563aed3').subscribe(
+    data => {
+      ocorrencias['oc01'] = data[0]
+      ocorrencias['oc02'] = data[1]
+      console.log(ocorrencias)
+    }
+  )
 }
 
 
