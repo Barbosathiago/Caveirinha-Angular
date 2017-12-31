@@ -11,6 +11,7 @@ import { HomeComponent } from './home/home.component';
 import { ConsultarOcorrenciaComponent } from './consultar-ocorrencia/consultar-ocorrencia.component';
 import { SharedModule } from './shared/shared.module';
 import { TextMaskModule } from 'angular2-text-mask';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { TextMaskModule } from 'angular2-text-mask';
     TextMaskModule,
     HttpClientModule,
     BrowserModule,
+    BrowserAnimationsModule,
     RouterModule.forRoot(ROUTES),
     SharedModule.forRoot(),
   ],

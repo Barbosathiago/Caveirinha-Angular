@@ -4,6 +4,7 @@ import 'rxjs/add/operator/map'
 import {Observable} from 'rxjs/Observable'
 
 import {OcorrenciasService} from '../shared/services/ocorrencias.service'
+import {NotificationService} from '../shared/services/notification.service'
 import {SelectOption} from '../shared/select/select-option.model'
 import {Ocorrencia, Veiculo, Dp} from '../shared/models/ocorrencia.model'
 import {chassis,numeroCasa,placa} from '../shared/text-masks'
@@ -26,7 +27,8 @@ export class CadastroOcorrenciaComponent implements OnInit {
   numberPattern = /^[0-9]*$/
 
   constructor(private ocorrenciasService: OcorrenciasService,
-              private formBuilder: FormBuilder) { }
+              private formBuilder: FormBuilder,
+              private notificationService: NotificationService) { }
 
   veiculoOptions: SelectOption[]=[
     {option: 'Carro', value: 'CARRO'},
@@ -80,16 +82,19 @@ registraOcorrencia(values){
   console.log(ocorrencia)
   this.ocorrenciasService.registraVeiculo(ocorrencia.veiculo).subscribe(result => {
     ocorrencia.veiculo.public_id=result
-    this.ocorrenciasService.registraOcorrencia(ocorrencia).subscribe(message => console.log(message))
-  })  
+    this.ocorrenciasService.registraOcorrencia(ocorrencia).subscribe(message => {
+      console.log(message)
+      this.notificationService.notify('Ocorrência Registrada!')
+      this.ocorrenciaForm.reset()
+    })
+  })
 }
 
 testaServico(){
   let ocorrencias = {}
   this.ocorrenciasService.getTwoOcorrencias('d8c6b91a-4895-4795-9069-899c3b381ea2','088222c2-4712-4c31-bbb8-6b005563aed3').subscribe(
     data => {
-      ocorrencias['oc01'] = data[0]
-      ocorrencias['oc02'] = data[1]
+      this.notificationService.notify('Ocorrência Registrada!')
       console.log(ocorrencias)
     }
   )
