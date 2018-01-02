@@ -6,6 +6,7 @@ import { SharedModule } from './shared/shared.module';
 import { TextMaskModule } from 'angular2-text-mask';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { DataTablesModule } from 'angular-datatables'
+import { ChartsModule } from '@progress/kendo-angular-charts';
 
 import { AppComponent } from './app.component';
 import { CadastroOcorrenciaComponent } from './cadastro-ocorrencia/cadastro-ocorrencia.component';
@@ -13,7 +14,8 @@ import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
 import { ConsultarOcorrenciaComponent } from './consultar-ocorrencia/consultar-ocorrencia.component';
 
-import {ROUTES} from './app.routes'
+import {ROUTES} from './app.routes';
+import { RelatoriosComponent } from './relatorios/relatorios.component'
 
 @NgModule({
   declarations: [
@@ -22,8 +24,10 @@ import {ROUTES} from './app.routes'
     HeaderComponent,
     HomeComponent,
     ConsultarOcorrenciaComponent,
+    RelatoriosComponent,
   ],
   imports: [
+    ChartsModule,
     TextMaskModule,
     HttpClientModule,
     BrowserModule,

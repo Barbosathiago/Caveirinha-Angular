@@ -24,6 +24,7 @@
         "../node_modules/bootstrap/dist/css/bootstrap.min.css",
         "../node_modules/admin-lte/dist/css/AdminLTE.min.css",
         "../node_modules/admin-lte/dist/css/skins/skin-green.min.css",
+        "../node_modules/@progress/kendo-theme-default/dist/all.css",
         "styles.css"
       ],
       "scripts": [
