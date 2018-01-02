@@ -32,7 +32,7 @@ export class OcorrenciasService {
     placa = placa ? placa : ''
     numeroMotor = numeroMotor ? numeroMotor : ''
     chassis = chassis ? chassis : ''
-    situacao = situacao ? situacao : ''    
+    situacao = situacao ? situacao : ''
     let params: HttpParams = undefined
     params = new HttpParams().set('placa', placa)
                             .set('numeroMotor', numeroMotor)
@@ -44,6 +44,11 @@ export class OcorrenciasService {
 
   ocorrenciasById(id: number): Observable<Ocorrencia>{
     return this.http.get(`${CAVEIRINHA_API}/ocorrencias/${id}`)
+      .catch(ErrorHandler.handleError)
+  }
+
+  updateOcorrencia(id: number, ocorrencia: Ocorrencia): Observable<Ocorrencia>{
+    return this.http.put(`${CAVEIRINHA_API}/ocorrencias/${id}`, ocorrencia)
       .catch(ErrorHandler.handleError)
   }
 
