@@ -60,6 +60,7 @@ export class CadastroOcorrenciaComponent implements OnInit {
       telefoneProprietario: this.formBuilder.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(80)]),
       dp: this.formBuilder.control('', [Validators.required]),
       tipoOcorrencia: this.formBuilder.control('', [Validators.required]),
+      data: this.formBuilder.control('', [Validators.required]),
     })
     this.ocorrenciasService.getAllDps().subscribe(dps => {
       dps.map(dp => {
@@ -77,7 +78,7 @@ registraOcorrencia(values){
   let ocorrencia: Ocorrencia = new Ocorrencia(null
     ,values.rua, values.bairro,
     values.numero,dp, values.tipoOcorrencia,
-    'PENDENTE', veiculo
+    'PENDENTE', veiculo, values.data
   )
   console.log(ocorrencia)
   this.ocorrenciasService.registraVeiculo(ocorrencia.veiculo).subscribe(result => {

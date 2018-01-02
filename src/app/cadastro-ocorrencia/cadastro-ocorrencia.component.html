@@ -104,6 +104,11 @@
             <div class="col-sm-4 col-xs-6">
               <cav-select [options]="ocorrenciaOptions" formControlName="tipoOcorrencia" [label]="Tipo"></cav-select>
             </div>
+            <div class="col-sm-2 col-xs-12">
+              <cav-input errorMessage="Campo obrigatório" label="Descrição">
+                <input formControlName="data" autocomplete="off" type="date" class="form-control" placeholder="Descrição">
+              </cav-input>
+            </div>
           </div>
           <!-- /.row -->
 

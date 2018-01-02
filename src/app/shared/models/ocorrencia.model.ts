@@ -8,6 +8,7 @@ class Ocorrencia {
     public tipoOcorrencia: string,
     public situacao: string = 'PENDENTE',
     public veiculo: Veiculo,
+    public data: Date
   ){}
 }
 
