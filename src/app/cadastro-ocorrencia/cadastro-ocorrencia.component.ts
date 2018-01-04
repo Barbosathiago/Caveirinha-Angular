@@ -6,8 +6,8 @@ import {Observable} from 'rxjs/Observable'
 import {OcorrenciasService} from '../shared/services/ocorrencias.service'
 import {NotificationService} from '../shared/services/notification.service'
 import {SelectOption} from '../shared/select/select-option.model'
-import {Ocorrencia, Veiculo, Dp} from '../shared/models/ocorrencia.model'
-import {chassis,numeroCasa,placa} from '../shared/text-masks'
+import {Ocorrencia, Veiculo, Dp, Proprietario} from '../shared/models/ocorrencia.model'
+import {chassisP,numeroCasaP,placaP, anoVeiculoP, numeroOcorrenciaP} from '../shared/text-masks'
 
 @Component({
   selector: 'cav-cadastro-ocorrencia',
@@ -20,11 +20,15 @@ export class CadastroOcorrenciaComponent implements OnInit {
 
   placaPattern = [/[A-Z]/i,/[A-Z]/i,/[A-Z]/i,'-',/\d/,/\d/,/\d/,/\d/]
 
-  numeroPattern = numeroCasa
+  numeroPattern = numeroCasaP
 
-  chassisPattern = chassis
+  chassisPattern = chassisP
 
   numberPattern = /^[0-9]*$/
+
+  anoveiculoPattern= anoVeiculoP
+
+  numeroOcorrenciaPattern = numeroOcorrenciaP
 
   constructor(private ocorrenciasService: OcorrenciasService,
               private formBuilder: FormBuilder,
@@ -47,17 +51,17 @@ export class CadastroOcorrenciaComponent implements OnInit {
 
   ngOnInit() {
     this.ocorrenciaForm = this.formBuilder.group({
-      rua: this.formBuilder.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(250)]),
-      bairro: this.formBuilder.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(250)]),
-      numero: this.formBuilder.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(250), Validators.pattern(this.numberPattern)]),
+      numeroOcorrencia: this.formBuilder.control('', [Validators.maxLength(50)]),
+      local: this.formBuilder.control('', [Validators.required, Validators.minLength(4), Validators.maxLength(450)]),
+      observacoes: this.formBuilder.control('', [Validators.maxLength(450)]),
       placa: this.formBuilder.control('', [Validators.required, Validators.minLength(8), Validators.maxLength(8)]),
-      chassis: this.formBuilder.control('', [Validators.required, Validators.minLength(17), Validators.maxLength(17)]),
-      numeroMotor: this.formBuilder.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(15)]),
+      anoVeiculo: this.formBuilder.control('', [Validators.maxLength(4)]),
+      chassis: this.formBuilder.control('', [Validators.maxLength(17)]),
+      numeroMotor: this.formBuilder.control('', [Validators.maxLength(15)]),
       cor: this.formBuilder.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]),
       tipoVeiculo: this.formBuilder.control('', [Validators.required]),
-      descricao: this.formBuilder.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(450)]),
       nomeProprietario: this.formBuilder.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(450)]),
-      telefoneProprietario: this.formBuilder.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(80)]),
+      contatoProprietario: this.formBuilder.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(80)]),
       dp: this.formBuilder.control('', [Validators.required]),
       tipoOcorrencia: this.formBuilder.control('', [Validators.required]),
       data: this.formBuilder.control('', [Validators.required]),
@@ -71,24 +75,43 @@ export class CadastroOcorrenciaComponent implements OnInit {
 
 registraOcorrencia(values){
   let dp: Dp = new Dp(values.dp, 'null');
-  let veiculo: Veiculo = new  Veiculo(null, values.placa,
-    values.chassis, values.numeroMotor, values.cor,
-    values.tipoVeiculo, values.descricao, values.nomeProprietario,
-    values.telefoneProprietario);
-  let ocorrencia: Ocorrencia = new Ocorrencia(null
-    ,values.rua, values.bairro,
-    values.numero,dp, values.tipoOcorrencia,
-    'PENDENTE', veiculo, values.data
+  let proprietario: Proprietario = new Proprietario(values.nomeProprietario, values.contatoProprietario)
+  let veiculo: Veiculo = new  Veiculo(
+    values.placa, values.tipoVeiculo,
+    proprietario,values.chassis,
+    values.numeroMotor,values.anoVeiculo,
+    values.cor);
+  let ocorrencia: Ocorrencia = new Ocorrencia(
+    values.local,
+    values.numeroOcorrencia,
+    dp,
+    values.tipoOcorrencia,
+    values.situacao,
+    veiculo,
+    values.data,
+    values.observacoes
   )
+  console.log(values)
   console.log(ocorrencia)
-  this.ocorrenciasService.registraVeiculo(ocorrencia.veiculo).subscribe(result => {
-    ocorrencia.veiculo.public_id=result
-    this.ocorrenciasService.registraOcorrencia(ocorrencia).subscribe(message => {
-      console.log(message)
-      this.notificationService.notify('Ocorrência Registrada!')
-      this.ocorrenciaForm.reset()
+  this.ocorrenciasService.registraProprietario(ocorrencia.veiculo.proprietario).subscribe(result =>{
+    ocorrencia.veiculo.proprietario.public_id=result
+    this.ocorrenciasService.registraVeiculo(ocorrencia.veiculo).subscribe(result => {
+      ocorrencia.veiculo.public_id=result
+      this.ocorrenciasService.registraOcorrencia(ocorrencia).subscribe(message => {
+        console.log(message)
+        this.notificationService.notify('Ocorrência Registrada!')
+        this.ocorrenciaForm.reset()
+      })
     })
   })
+  // this.ocorrenciasService.registraVeiculo(ocorrencia.veiculo).subscribe(result => {
+  //   ocorrencia.veiculo.public_id=result
+  //   this.ocorrenciasService.registraOcorrencia(ocorrencia).subscribe(message => {
+  //     console.log(message)
+  //     this.notificationService.notify('Ocorrência Registrada!')
+  //     this.ocorrenciaForm.reset()
+  //   })
+  // })
 }
 
 testaServico(){
