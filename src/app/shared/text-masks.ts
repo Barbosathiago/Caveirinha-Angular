@@ -1,5 +1,7 @@
-const placa =[/[A-Z]/i,/[A-Z]/i,/[A-Z]/i,'-',/\d/,/\d/,/\d/,/\d/]
-const numeroCasa=[/[1-9]/,/[1-9]/,/[1-9]/,/[1-9]/,]
-const chassis=[/\w/,/\w/,/\w/,/\w/,/\w/,/\w/,/\w/,/\w/,/\w/,/\w/,/\w/,/\w/,/\w/,/\w/,/\w/,/\w/,/\w/,]
+const placaP =[/[A-Z]/i,/[A-Z]/i,/[A-Z]/i,'-',/\d/,/\d/,/\d/,/\d/]
+const numeroCasaP=[/[1-9]/,/[1-9]/,/[1-9]/,/[1-9]/,]
+const anoVeiculoP=[/[1-9]/,/[1-9]/,/[1-9]/,/[1-9]/,]
+const numeroOcorrenciaP=[/[1-9]/,/[1-9]/,/[1-9]/,/[1-9]/,/[1-9]/,/[1-9]/,'/',/[1-9]/,/[1-9]/,/[1-9]/,/[1-9]/,]
+const chassisP=[/\w/,/\w/,/\w/,/\w/,/\w/,/\w/,/\w/,/\w/,/\w/,/\w/,/\w/,/\w/,/\w/,/\w/,/\w/,/\w/,/\w/,]
 
-export{placa, numeroCasa, chassis}
+export{placaP, numeroCasaP, chassisP,anoVeiculoP, numeroOcorrenciaP}
