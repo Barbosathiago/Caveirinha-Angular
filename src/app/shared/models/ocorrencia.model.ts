@@ -1,36 +1,44 @@
 class Ocorrencia {
+  /** This is a description of the foo function. */
   constructor(
-    public public_id: string = '',
-    public rua: string,
-    public bairro: string,
-    public numero: string,
+    public localOcorrencia: string,
+    public numeroOcorrencia: string,
     public dp: Dp,
-    public tipoOcorrencia: string,
+    public tipo: string,
     public situacao: string = 'PENDENTE',
     public veiculo: Veiculo,
-    public data: Date
+    public data: Date,
+    public observacoes?: string,
+    public public_id?: string
   ){}
 }
 
 class Veiculo {
     constructor(
-      public public_id: string = '',
       public placa: string,
-      public chassis: string,
-      public numeroMotor: string,
-      public cor: string,
-      public tipoVeiculo: string,
-      public descricao: string,
-      public nomeProprietario: string,
-      public telefoneProprietario: string,
+      public tipo: string,
+      public proprietario: Proprietario,
+      public chassis?: string,
+      public numeroMotor?: string,
+      public ano?: string,
+      public cor?: string,
+      public public_id?: string
     ){}
 }
 
 class Dp {
   constructor(
     public public_id: string = '',
-    public nome: string,
+    public nome: string
   ){}
 }
 
-export {Ocorrencia, Dp, Veiculo}
+class Proprietario{
+  constructor(
+    public nome: string,
+    public contato: string,
+    public public_id?: string
+  ){}
+}
+
+export {Ocorrencia, Dp, Veiculo, Proprietario}
