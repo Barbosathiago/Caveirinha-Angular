@@ -7,7 +7,7 @@ import 'rxjs/add/operator/map'
 import 'rxjs/add/observable/forkJoin'
 import 'rxjs/add/operator/catch'
 
-import {Ocorrencia, Dp, Veiculo} from '../models/ocorrencia.model'
+import {Ocorrencia, Dp, Veiculo, Proprietario} from '../models/ocorrencia.model'
 
 import {CAVEIRINHA_API} from '../../app.api'
 import {ErrorHandler} from '../app.error-handler'
@@ -94,6 +94,11 @@ export class OcorrenciasService {
   dpById(id: number): Observable<Dp>{
     return this.http.get(`${CAVEIRINHA_API}/dp/${id}`)
       .catch(ErrorHandler.handleError)
+  }
+
+  registraProprietario(proprietario: Proprietario):Observable<string>{
+    return this.http.post<string>(`${CAVEIRINHA_API}/proprietarios`, proprietario)
+            .map(message => message['public_id'])
   }
 
 
