@@ -63,7 +63,6 @@
               <th>Tipo Veiculo</th>
               <th>Chassis</th>
               <th>Nº Motor</th>
-              <th>Descrição</th>
               <th>Proprietário</th>
               <th>Situação</th>
               <th>Ações</th>
@@ -72,11 +71,10 @@
           <tbody>
           <tr *ngFor="let ocorrencia of ocorrencias">
             <td><small>{{ocorrencia.veiculo.placa}}</small></td>
-            <td><small>{{ocorrencia.veiculo.tipoVeiculo}}</small></td>
+            <td><small>{{ocorrencia.veiculo.tipo}}</small></td>
             <td><small>{{ocorrencia.veiculo.chassis}}</small></td>
             <td><small>{{ocorrencia.veiculo.numeroMotor}}</small></td>
-            <td><small>{{ocorrencia.veiculo.descricao}}</small></td>
-            <td><small>{{ocorrencia.veiculo.nomeProprietario}}</small></td>
+            <td><small>{{ocorrencia.veiculo.proprietario.nome}}</small></td>
             <td><span class="label"
                       [class.label-danger]="ocorrencia.situacao === 'PENDENTE'"
                       [class.label-success]="ocorrencia.situacao === 'CONCLUÍDA'" >{{ocorrencia.situacao}}</span></td>
