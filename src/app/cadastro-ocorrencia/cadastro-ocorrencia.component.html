@@ -17,19 +17,9 @@
             <div class="col-xs-12">
               <p class="lead">Local da ocorrência:</p>
             </div>
-            <div class="col-sm-6 col-xs-12">
-              <cav-input errorMessage="Campo obrigatório e com no mínimo 3 caracteres!" label="Rua">
-                <input formControlName="rua" autocomplete="off" type="text" class="form-control" placeholder="Rua">
-              </cav-input>
-            </div>
-            <div class="col-sm-2 col-xs-6">
-              <cav-input errorMessage="Somente números" label="Número">
-                <input [textMask]="{mask: numeroPattern}" formControlName="numero" autocomplete="off" type="text" class="form-control" placeholder="Número">
-              </cav-input>
-            </div>
-            <div class="col-sm-4 col-xs-6">
-              <cav-input errorMessage="Campo obrigatório e com no mínimo 3 caracteres!" label="Bairro">
-                <input formControlName="bairro" autocomplete="off" type="text" class="form-control" placeholder="Bairro">
+            <div class="col-sm-12 col-xs-12">
+              <cav-input errorMessage="Campo obrigatório e com no mínimo 4 caracteres!" label="Local do Fato">
+                <input formControlName="local" autocomplete="off" type="text" class="form-control" placeholder="Ex: AV. IMIGRANTES">
               </cav-input>
             </div>
             <!-- /.col -->
@@ -43,35 +33,36 @@
             </div>
             <div class="col-sm-2 col-xs-6">
               <cav-input errorMessage="Campo obrigatório" label="Placa">
-                <input [textMask]="{mask: placaPattern}" formControlName="placa" autocomplete="off" type="text" class="form-control" placeholder="Placa">
+                <input [textMask]="{mask: placaPattern}" formControlName="placa" autocomplete="off" type="text" class="form-control" placeholder="Ex: ABC-1234">
               </cav-input>
             </div>
             <div class="col-sm-2 col-xs-6">
               <div class="form-group">
                 <cav-input errorMessage="Campo obrigatório" label="Chassis">
-                  <input [textMask]="{mask: chassisPattern}" formControlName="chassis" autocomplete="off" type="text" class="form-control" placeholder="Chassis">
+                  <input [textMask]="{mask: chassisPattern}" formControlName="chassis" autocomplete="off" type="text" class="form-control" placeholder="Ex: 00000000000000">
                 </cav-input>
               </div>
             </div>
             <div class="col-sm-2 col-xs-6">
               <cav-input errorMessage="Campo obrigatório" label="Nº Motor">
-                <input formControlName="numeroMotor" autocomplete="off" type="text" class="form-control" placeholder="Nº Motor">
+                <input formControlName="numeroMotor" autocomplete="off" type="text" class="form-control" placeholder="Ex: 00000000000000000000">
+              </cav-input>
+            </div>
+            <div class="col-sm-2 col-xs-6">
+              <cav-input errorMessage="Campo obrigatório" label="Ano">
+                <input [textMask]="{mask: anoveiculoPattern}" formControlName="anoVeiculo" autocomplete="off" type="text" class="form-control" placeholder="Ex: 2000">
               </cav-input>
             </div>
             <div class="col-sm-2 col-xs-6">
               <cav-input errorMessage="Campo obrigatório" label="Cor">
-                <input formControlName="cor" autocomplete="off" type="text" class="form-control" placeholder="Cor">
+                <input formControlName="cor" autocomplete="off" type="text" class="form-control" placeholder="Ex: PRETO">
               </cav-input>
             </div>
-            <div class="col-sm-4 col-xs-12">
-                <cav-select [options]="veiculoOptions" formControlName="tipoVeiculo" [label]="Tipo"></cav-select>
-            </div>
-            <div class="col-sm-12 col-xs-12">
-              <cav-input errorMessage="Campo obrigatório" label="Descrição">
-                <input formControlName="descricao" autocomplete="off" type="text" class="form-control" placeholder="Descrição">
+            <div class="col-sm-2 col-xs-12">
+              <cav-input errorMessage="Campo obrigatório" label="Tipo">
+                <input formControlName="tipoVeiculo" autocomplete="off" type="text" class="form-control" placeholder="Ex: YBR">
               </cav-input>
             </div>
-
           </div>
           <!-- /.row -->
 
@@ -82,12 +73,12 @@
             </div>
             <div class="col-sm-4 col-xs-6">
               <cav-input errorMessage="Campo obrigatório" label="Nome do proprietário">
-                <input formControlName="nomeProprietario" autocomplete="off" type="text" class="form-control" placeholder="Nome do proprietário">
+                <input formControlName="nomeProprietario" autocomplete="off" type="text" class="form-control" placeholder="Ex: ALEXEI LEONTIEV">
               </cav-input>
             </div>
             <div class="col-sm-3 col-xs-6">
-              <cav-input errorMessage="Campo obrigatório" label="telefoneProprietario">
-                <input formControlName="telefoneProprietario" autocomplete="off" type="text" class="form-control" placeholder="Telefone do Proprietário">
+              <cav-input errorMessage="Campo obrigatório" label="Contato do Proprietário">
+                <input formControlName="contatoProprietario" autocomplete="off" type="text" class="form-control" placeholder="Ex: 999299299">
               </cav-input>
             </div>
           </div>
@@ -98,16 +89,27 @@
             <div class="col-xs-12">
               <p class="lead">Detalhes da Ocorrência:</p>
             </div>
-            <div class="col-sm-2 col-xs-6">
+            <div class="col-sm-3 col-xs-6">
+              <cav-input errorMessage="Campo obrigatório" label="Número de Ocorrência">
+                <input [textMask]="{mask: numeroOcorrenciaPattern}" formControlName="numeroOcorrencia" autocomplete="off" type="text" class="form-control" placeholder="Ex: 123456/2018">
+              </cav-input>
+            </div>
+            <div class="col-sm-3 col-xs-6">
               <cav-select [options]="dpOptions" formControlName="dp" [label]="'Local de Registro'"></cav-select>
             </div>
             <div class="col-sm-4 col-xs-6">
-              <cav-select [options]="ocorrenciaOptions" formControlName="tipoOcorrencia" [label]="Tipo"></cav-select>
+              <cav-select [options]="ocorrenciaOptions" formControlName="tipoOcorrencia" [label]="'Ocorrência'"></cav-select>
             </div>
-            <div class="col-sm-2 col-xs-12">
-              <cav-input errorMessage="Campo obrigatório" label="Descrição">
+            <div class="col-sm-2 col-xs-6">
+              <cav-input errorMessage="Campo obrigatório" label="Data">
                 <input formControlName="data" autocomplete="off" type="date" class="form-control" placeholder="Descrição">
               </cav-input>
+            </div>
+            <div class="col-sm-12 col-xs-12">
+              <div class="form-group">
+                <label>Observações</label>
+                <textarea formControlName="observacoes" class="form-control" placeholder="Insira aqui informações extras consideradas relevantes" rows="3"></textarea>
+              </div>
             </div>
           </div>
           <!-- /.row -->
