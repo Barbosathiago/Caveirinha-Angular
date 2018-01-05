@@ -67,19 +67,32 @@
           <!-- /.row -->
 
           <!--  row -->
-          <div class="row">
+          <div class="row" [class.alert]="selectedProp" [class.alert-warning]="selectedProp" [class.alert-dismissible]="selectedProp">
             <div class="col-xs-12">
               <p class="lead">Dados do proprietário:</p>
             </div>
-            <div class="col-sm-4 col-xs-6">
+            <div class="col-sm-5 col-xs-6">
               <cav-input errorMessage="Campo obrigatório" label="Nome do proprietário">
-                <input formControlName="nomeProprietario" autocomplete="off" type="text" class="form-control" placeholder="Ex: ALEXEI LEONTIEV">
+                <!-- <input formControlName="nomeProprietario" autocomplete="off" type="text" class="form-control" placeholder="Ex: ALEXEI LEONTIEV"> -->
+                <p-autoComplete [size]="30" (onSelect)="setProprietario($event)" formControlName="nomeProprietario" styleClass="ui-corner-all" [suggestions]="results" field="nome" placeholder="Digite para procurar proprietarios"></p-autoComplete>
               </cav-input>
             </div>
             <div class="col-sm-3 col-xs-6">
               <cav-input errorMessage="Campo obrigatório" label="Contato do Proprietário">
                 <input formControlName="contatoProprietario" autocomplete="off" type="text" class="form-control" placeholder="Ex: 999299299">
               </cav-input>
+            </div>
+            <div class="col-sm-2 col-xs-2" *ngIf="selectedProp">
+              <button (click)="clearProprietario()" class="btn btn-success"><i class="fa fa-refresh"></i></button>
+            </div>
+            <div class="col-sm-12 col-xs-12" *ngIf="selectedProp">
+              <h4><i class="icon fa fa-info"></i> Atenção!</h4>
+              <p>
+                Você selecionou um proprietário já cadastrado em nosso banco de dados.<br />
+                Antes de prosseguir cheque o número do telefone para saber se ele é realmente quem você quer
+                caso não seja, basta clicar no ícone <i class="fa fa-refresh"></i> e pesquisar novamente,
+                caso não consiga encontrar o proprietário que deseja, apenas preencha os dados que ele será criado automaticamente
+              </p>
             </div>
           </div>
           <!-- /.row -->
