@@ -101,5 +101,16 @@ export class OcorrenciasService {
             .map(message => message['public_id'])
   }
 
+  getProprietario(nome?: string): Observable<Proprietario[]>{
+    let params: HttpParams
+    if(nome){
+      params = new HttpParams().set('nome', nome)
+    }
+    return this.http.get<Proprietario[]>(`${CAVEIRINHA_API}/proprietarios`, {params: params})
+            .map(result => {
+              return result['proprietarios']
+            })
+  }
+
 
 }
