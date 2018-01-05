@@ -7,6 +7,7 @@ import { TextMaskModule } from 'angular2-text-mask';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { DataTablesModule } from 'angular-datatables'
 import { ChartsModule } from '@progress/kendo-angular-charts';
+import {AutoCompleteModule} from 'primeng/primeng'
 
 import { AppComponent } from './app.component';
 import { CadastroOcorrenciaComponent } from './cadastro-ocorrencia/cadastro-ocorrencia.component';
@@ -33,6 +34,7 @@ import { RelatoriosComponent } from './relatorios/relatorios.component'
     BrowserModule,
     BrowserAnimationsModule,
     DataTablesModule,
+    AutoCompleteModule,
     RouterModule.forRoot(ROUTES),
     SharedModule.forRoot(),
   ],
