@@ -8,6 +8,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { DataTablesModule } from 'angular-datatables'
 import { ChartsModule } from '@progress/kendo-angular-charts';
 import {AutoCompleteModule} from 'primeng/primeng'
+import {ModalModule} from 'ngx-bootstrap/modal'
+
 
 import { AppComponent } from './app.component';
 import { CadastroOcorrenciaComponent } from './cadastro-ocorrencia/cadastro-ocorrencia.component';
@@ -35,6 +37,7 @@ import { RelatoriosComponent } from './relatorios/relatorios.component'
     BrowserAnimationsModule,
     DataTablesModule,
     AutoCompleteModule,
+    ModalModule.forRoot(),
     RouterModule.forRoot(ROUTES),
     SharedModule.forRoot(),
   ],
