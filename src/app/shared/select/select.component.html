@@ -1,6 +1,6 @@
 <div class=form-group>
   <label class="control-label" for="inputSuccess">{{label}}</label>
   <select class="form-control">
-    <option *ngFor="let option of options" (click)="setValue(option.value)">{{option.option}}</option>
+    <option *ngFor="let option of options" [attr.selected]="value === option.value ? true : null" (click)="setValue(option.value)">{{option.option}}</option>
   </select>
 </div>
