@@ -1,27 +1,26 @@
-# CaveirinhaApp
+[![Caveirinha](https://user-images.githubusercontent.com/22015299/34806963-637611ba-f65c-11e7-8dc6-0e887fafda78.png "Caveirinha")](https://github.com/Barbosathiago/Caveirinha-Angular "Caveirinha")
+
+# Caveirinha
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.5.4.
+Este projeto tem como propósito proporcionar um controle independente de ocorrências de furtos/roubos de veículos para a [Polícia Militar do Estado de Rondônia](http://www.pm.ro.gov.br/)
 
-## Development server
+## Dependências necessárias
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+-  [Angular CLI](https://github.com/angular/angular-cli)
+-  [NPM](https://www.npmjs.com/)
+-  [Caveirinha API](https://github.com/Barbosathiago/Caveirinha-Api)
 
-## Code scaffolding
+## Configurando a aplicação
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+- Baixe a última release disponível ou clone-a para um repositório local
+- Execute o comando `npm install` no diretório raiz da aplicação
+- [Configure](https://github.com/Barbosathiago/Caveirinha-Api/blob/master/README.md) e inicie a [API](https://github.com/Barbosathiago/Caveirinha-Api)
 
-## Build
+## Rodando a aplicação em um ambiente de desenvolvimento
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+Após ter Configurado a aplicação, execute o comando `ng serve` no diretório raiz para ter um servidor de desenvolvimento. Neste modo o aplicativo irá recarregar automaticamente mediante alterações.
 
-## Running unit tests
+## Rodando a aplicação em um ambiente de produção
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Após ter Configurado a aplicação, execute o comando `ng build` no diretório raiz para gerar a aplicação em modo de desenvolvimento. Uma pasta chamada `dist` será criada no diretório raiz, através dela você poderá dar deploy em um servidor de sua escolha.
