@@ -16,6 +16,7 @@ import { CadastroOcorrenciaComponent } from './cadastro-ocorrencia/cadastro-ocor
 import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
 import { ConsultarOcorrenciaComponent } from './consultar-ocorrencia/consultar-ocorrencia.component';
+import {EdicaoOcorrenciaComponent} from './edicao-ocorrencia/edicao-ocorrencia.component'
 
 import {ROUTES} from './app.routes';
 import { RelatoriosComponent } from './relatorios/relatorios.component'
@@ -28,6 +29,10 @@ import { RelatoriosComponent } from './relatorios/relatorios.component'
     HomeComponent,
     ConsultarOcorrenciaComponent,
     RelatoriosComponent,
+    EdicaoOcorrenciaComponent,
+  ],
+  entryComponents:[
+    EdicaoOcorrenciaComponent
   ],
   imports: [
     ChartsModule,
