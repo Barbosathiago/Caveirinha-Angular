@@ -81,6 +81,7 @@
             <td>
               <button [disabled]="ocorrencia.situacao === 'CONCLUÍDA'" (click)="concluirOcorrencia(ocorrencia, 'C')" class="btn btn-xs btn-success"><i class="fa fa-check"></i></button>
               <button [disabled]="ocorrencia.situacao === 'PENDENTE'" (click)="concluirOcorrencia(ocorrencia, 'R')" class="btn btn-xs btn-warning"><i class="fa fa-refresh"></i></button>
+              <button class="btn btn-xs btn-info" (click)="openModalWithComponent(ocorrencia)"><i class="fa fa-pencil"></i></button>
             </td>
           </tr>
         </tbody>
@@ -93,3 +94,21 @@
     </p>
   </div>
 </section>
+
+
+<!-- Template do Modal -->
+<ng-template #template>
+  <div class="modal-header">
+    <h4 class="modal-title pull-left page-header">
+      <i class="fa fa-pencil">
+      </i>
+       Editar Ocorrência
+    </h4>
+    <button type="button" class="close pull-right" aria-label="Close" (click)="modalRef.hide()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+
+  </div>
+</ng-template>

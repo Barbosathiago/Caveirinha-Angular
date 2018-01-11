@@ -1,14 +1,21 @@
-import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, AfterViewInit, TemplateRef } from '@angular/core';
 import { OcorrenciasService } from '../shared/services/ocorrencias.service'
 import {Ocorrencia} from '../shared/models/ocorrencia.model'
 import { DataTableDirective } from 'angular-datatables';
 import { Subject } from 'rxjs/Subject';
+import {EdicaoOcorrenciaComponent} from '../edicao-ocorrencia/edicao-ocorrencia.component'
+
+
+import { BsModalService } from 'ngx-bootstrap/modal';
+import { BsModalRef } from 'ngx-bootstrap/modal/bs-modal-ref.service';
 
 @Component({
   selector: 'cav-consultar-ocorrencia',
   templateUrl: './consultar-ocorrencia.component.html',
 })
 export class ConsultarOcorrenciaComponent implements OnInit, AfterViewInit {
+
+  modalRef: BsModalRef;
 
   // DataTable properties
   @ViewChild(DataTableDirective)
@@ -20,8 +27,22 @@ export class ConsultarOcorrenciaComponent implements OnInit, AfterViewInit {
   ocorrencias = []
   searched: boolean = false
 
+  config = {
+  class: 'modal-lg'
+  };
 
-  constructor(private ocorrenciasService: OcorrenciasService) { }
+
+  constructor(private ocorrenciasService: OcorrenciasService, private modalService: BsModalService) { }
+
+  openModal(template: TemplateRef<any>){
+    this.modalRef = this.modalService.show(template);
+  }
+
+  openModalWithComponent(ocorrencia: Ocorrencia) {
+  this.modalRef = this.modalService.show(EdicaoOcorrenciaComponent, this.config);
+  this.modalRef.content.editMode = true;
+  this.modalRef.content.initializeInEditMode(ocorrencia);
+}
 
   ngOnInit() {
 
