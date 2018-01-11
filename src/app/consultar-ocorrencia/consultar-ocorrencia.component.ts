@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild, AfterViewInit, TemplateRef } from '@angul
 import { OcorrenciasService } from '../shared/services/ocorrencias.service'
 import {Ocorrencia} from '../shared/models/ocorrencia.model'
 import { DataTableDirective } from 'angular-datatables';
+
 import { Subject } from 'rxjs/Subject';
 import {EdicaoOcorrenciaComponent} from '../edicao-ocorrencia/edicao-ocorrencia.component'
 
