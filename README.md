@@ -15,7 +15,7 @@ Este projeto tem como propósito proporcionar um controle independente de ocorr�
 
 - Baixe a última release disponível ou clone-a para um repositório local
 - Execute o comando `npm install` no diretório raiz da aplicação
-- [Configure](https://github.com/Barbosathiago/Caveirinha-Api/blob/master/README.md) e inicie a [API](https://github.com/Barbosathiago/Caveirinha-Api)
+- Configure e inicie a [API](https://github.com/Barbosathiago/Caveirinha-Api)
 
 ## Rodando a aplicação em um ambiente de desenvolvimento
 
@@ -24,3 +24,8 @@ Após ter Configurado a aplicação, execute o comando `ng serve` no diretório 
 ## Rodando a aplicação em um ambiente de produção
 
 Após ter Configurado a aplicação, execute o comando `ng build` no diretório raiz para gerar a aplicação em modo de desenvolvimento. Uma pasta chamada `dist` será criada no diretório raiz, através dela você poderá dar deploy em um servidor de sua escolha.
+
+
+------------
+
+*Este documento foi gerado utilizando o [Editor.md](https://pandao.github.io/editor.md/en.html)*
