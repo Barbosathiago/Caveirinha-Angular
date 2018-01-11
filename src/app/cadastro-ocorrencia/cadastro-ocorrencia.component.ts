@@ -21,11 +21,6 @@ import {chassisP,numeroCasaP,placaP, anoVeiculoP, numeroOcorrenciaP} from '../sh
 export class CadastroOcorrenciaComponent implements OnInit {
 
 
-  ocorrenciaForm: FormGroup
-  nomeProp: FormControl
-  contatoProp: FormControl
-  selectedProp: Proprietario = null
-
   placaPattern = [/[A-Z]/i,/[A-Z]/i,/[A-Z]/i,'-',/\d/,/\d/,/\d/,/\d/]
 
   numeroPattern = numeroCasaP
@@ -37,10 +32,6 @@ export class CadastroOcorrenciaComponent implements OnInit {
   anoveiculoPattern= anoVeiculoP
 
   numeroOcorrenciaPattern = numeroOcorrenciaP
-
-  constructor(private ocorrenciasService: OcorrenciasService,
-              private formBuilder: FormBuilder,
-              private notificationService: NotificationService) { }
 
   veiculoOptions: SelectOption[]=[
     {option: 'Carro', value: 'CARRO'},
@@ -60,25 +51,78 @@ export class CadastroOcorrenciaComponent implements OnInit {
 
   results: Proprietario[]
 
+  ocorrenciaForm: FormGroup
+  nomeProp: FormControl
+  contatoProp: FormControl
+  numeroOcorrenciaProp: FormControl
+  localOcorrenciaProp: FormControl
+  observacoesProp: FormControl
+  placaProp: FormControl
+  anoVeiculoProp: FormControl
+  chassisProp: FormControl
+  numeroMotorProp: FormControl
+  corProp: FormControl
+  tipoVeiculoProp: FormControl
+  dpProp: FormControl
+  tipoOcorrenciaProp: FormControl
+  dataProp: FormControl
+
+
+  selectedProp: Proprietario = null
+
+  constructor(private ocorrenciasService: OcorrenciasService,
+              private formBuilder: FormBuilder,
+              private notificationService: NotificationService){}
+
+
+  setValues(ocorrencia: Ocorrencia){
+    this.contatoProp.setValue(ocorrencia.veiculo.proprietario.contato)
+    this.nomeProp.setValue(ocorrencia.veiculo.proprietario.nome)
+    this.numeroOcorrenciaProp.setValue(ocorrencia.numeroOcorrencia)
+    this.localOcorrenciaProp.setValue(ocorrencia.localOcorrencia)
+    this.observacoesProp.setValue(ocorrencia.observacoes)
+    this.placaProp.setValue(ocorrencia.veiculo.placa)
+    this.anoVeiculoProp.setValue(ocorrencia.veiculo.ano)
+    this.chassisProp.setValue(ocorrencia.veiculo.chassis)
+    this.numeroMotorProp.setValue(ocorrencia.veiculo.chassis)
+    this.corProp.setValue(ocorrencia.veiculo.cor)
+    this.tipoVeiculoProp.setValue(ocorrencia.veiculo.tipo)
+    this.dpProp.setValue(ocorrencia.dp.public_id)
+    this.tipoOcorrenciaProp.setValue(ocorrencia.tipo)
+    this.dataProp.setValue(ocorrencia.data)
+  }
+
 
   ngOnInit() {
     this.contatoProp=this.formBuilder.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(80)])
     this.nomeProp=this.formBuilder.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(450)])
+    this.numeroOcorrenciaProp = this.formBuilder.control('', [Validators.maxLength(50)]);
+    this.localOcorrenciaProp = this.formBuilder.control('', [Validators.required, Validators.minLength(4), Validators.maxLength(450)]);
+    this.observacoesProp = this.formBuilder.control('', [Validators.maxLength(450)]);
+    this.placaProp = this.formBuilder.control('', [Validators.required, Validators.minLength(8), Validators.maxLength(8)]),
+    this.anoVeiculoProp = this.formBuilder.control('', [Validators.maxLength(4)]);
+    this.chassisProp = this.formBuilder.control('', [Validators.maxLength(17)]);
+    this.numeroMotorProp = this.formBuilder.control('', [Validators.maxLength(15)]);
+    this.corProp = this.formBuilder.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]);
+    this.tipoVeiculoProp = this.formBuilder.control('', [Validators.required]);
+    this.dpProp = this.formBuilder.control('', [Validators.required]);
+    this.tipoOcorrenciaProp = this.formBuilder.control('', [Validators.required]);
+    this.dataProp = this.formBuilder.control('', [Validators.required]);
     this.ocorrenciaForm = this.formBuilder.group({
       nomeProprietario: this.nomeProp,
       contatoProprietario: this.contatoProp,
-      numeroOcorrencia: this.formBuilder.control('', [Validators.maxLength(50)]),
-      local: this.formBuilder.control('', [Validators.required, Validators.minLength(4), Validators.maxLength(450)]),
-      observacoes: this.formBuilder.control('', [Validators.maxLength(450)]),
-      placa: this.formBuilder.control('', [Validators.required, Validators.minLength(8), Validators.maxLength(8)]),
-      anoVeiculo: this.formBuilder.control('', [Validators.maxLength(4)]),
-      chassis: this.formBuilder.control('', [Validators.maxLength(17)]),
-      numeroMotor: this.formBuilder.control('', [Validators.maxLength(15)]),
-      cor: this.formBuilder.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]),
-      tipoVeiculo: this.formBuilder.control('', [Validators.required]),
-      dp: this.formBuilder.control('', [Validators.required]),
-      tipoOcorrencia: this.formBuilder.control('', [Validators.required]),
-      data: this.formBuilder.control('', [Validators.required]),
+      numeroOcorrencia: this.numeroOcorrenciaProp,
+      local: this.localOcorrenciaProp,
+      observacoes: this.observacoesProp,
+      placa: this.placaProp,
+      anoVeiculo: this.anoVeiculoProp,
+      chassis: this.chassisProp,
+      numeroMotor: this.numeroMotorProp,
+      cor: this.corProp,
+      tipoVeiculo: this.tipoVeiculoProp,
+      dp: this.dpProp,
+      tipoOcorrencia: this.tipoOcorrenciaProp,
+      data: this.dataProp
     })
     this.ocorrenciasService.getAllDps().subscribe(dps => {
       dps.map(dp => {
@@ -98,80 +142,75 @@ export class CadastroOcorrenciaComponent implements OnInit {
 
   }
 
-setProprietario(event){
-  console.log(event)
-  this.contatoProp.setValue(event.contato)
-  this.selectedProp = new Proprietario(event.nome, event.contato, event.public_id)
-  this.nomeProp.disable()
-  this.contatoProp.disable()
-}
-
-clearProprietario(){
-  this.selectedProp = null
-  this.nomeProp.enable()
-  this.contatoProp.enable()
-  this.contatoProp.reset()
-}
-
-registraOcorrencia(values){
-  let dp: Dp = new Dp(values.dp, 'null');
-  let proprietario: Proprietario = this.selectedProp ? this.selectedProp : new Proprietario(values.nomeProprietario, values.contatoProprietario)
-  let veiculo: Veiculo = new  Veiculo(
-    values.placa, values.tipoVeiculo,
-    proprietario,values.chassis,
-    values.numeroMotor,values.anoVeiculo,
-    values.cor);
-  let ocorrencia: Ocorrencia = new Ocorrencia(
-    values.local,
-    values.numeroOcorrencia,
-    dp,
-    values.tipoOcorrencia,
-    values.situacao,
-    veiculo,
-    values.data,
-    values.observacoes
-  )
-  console.log(values)
-  console.log(ocorrencia)
-  if(this.selectedProp){
-    this.ocorrenciasService.registraVeiculo(ocorrencia.veiculo).subscribe(result => {
-      ocorrencia.veiculo.public_id=result
-      this.ocorrenciasService.registraOcorrencia(ocorrencia).subscribe(message => {
-        console.log(message)
-        this.notificationService.notify('Ocorrência Registrada!')
-        this.ocorrenciaForm.reset()
-        this.clearProprietario()
-      })
-    })
+  setProprietario(event){
+    console.log(event)
+    this.contatoProp.setValue(event.contato)
+    this.selectedProp = new Proprietario(event.nome, event.contato, event.public_id)
+    this.nomeProp.disable()
+    this.contatoProp.disable()
   }
-  else{
-      this.ocorrenciasService.registraProprietario(ocorrencia.veiculo.proprietario).subscribe(result =>{
-        ocorrencia.veiculo.proprietario.public_id=result
-        this.ocorrenciasService.registraVeiculo(ocorrencia.veiculo).subscribe(result => {
-          ocorrencia.veiculo.public_id=result
-          this.ocorrenciasService.registraOcorrencia(ocorrencia).subscribe(message => {
-            console.log(message)
-            this.notificationService.notify('Ocorrência Registrada!')
-            this.ocorrenciaForm.reset()
-            this.clearProprietario()
-          })
+
+  clearProprietario(){
+    this.selectedProp = null
+    this.nomeProp.enable()
+    this.contatoProp.enable()
+    this.contatoProp.reset()
+  }
+
+  registraOcorrencia(values){
+    let dp: Dp = new Dp(values.dp, 'null');
+    let proprietario: Proprietario = this.selectedProp ? this.selectedProp : new Proprietario(values.nomeProprietario, values.contatoProprietario)
+    let veiculo: Veiculo = new  Veiculo(
+      values.placa, values.tipoVeiculo,
+      proprietario,values.chassis,
+      values.numeroMotor,values.anoVeiculo,
+      values.cor);
+    let ocorrencia: Ocorrencia = new Ocorrencia(
+      values.local,
+      values.numeroOcorrencia,
+      dp,
+      values.tipoOcorrencia,
+      values.situacao,
+      veiculo,
+      values.data,
+      values.observacoes
+    )
+    console.log(values)
+    console.log(ocorrencia)
+    if(this.selectedProp){
+      this.ocorrenciasService.registraVeiculo(ocorrencia.veiculo).subscribe(result => {
+        ocorrencia.veiculo.public_id=result
+        this.ocorrenciasService.registraOcorrencia(ocorrencia).subscribe(message => {
+          console.log(message)
+          this.notificationService.notify('Ocorrência Registrada!')
+          this.ocorrenciaForm.reset()
+          this.clearProprietario()
         })
       })
     }
-  }
-
-testaServico(){
-  let ocorrencias = {}
-  this.ocorrenciasService.getTwoOcorrencias('d8c6b91a-4895-4795-9069-899c3b381ea2','088222c2-4712-4c31-bbb8-6b005563aed3').subscribe(
-    data => {
-      this.notificationService.notify('Ocorrência Registrada!')
-      console.log(ocorrencias)
+    else{
+        this.ocorrenciasService.registraProprietario(ocorrencia.veiculo.proprietario).subscribe(result =>{
+          ocorrencia.veiculo.proprietario.public_id=result
+          this.ocorrenciasService.registraVeiculo(ocorrencia.veiculo).subscribe(result => {
+            ocorrencia.veiculo.public_id=result
+            this.ocorrenciasService.registraOcorrencia(ocorrencia).subscribe(message => {
+              console.log(message)
+              this.notificationService.notify('Ocorrência Registrada!')
+              this.ocorrenciaForm.reset()
+              this.clearProprietario()
+            })
+          })
+        })
+      }
     }
-  )
-}
 
-
-
-
-
+  testaServico(){
+    let ocorrencias = {}
+    this.ocorrenciasService.getTwoOcorrencias('d8c6b91a-4895-4795-9069-899c3b381ea2','088222c2-4712-4c31-bbb8-6b005563aed3').subscribe(
+      data => {
+        this.notificationService.notify('Ocorrência Registrada!')
+        console.log(ocorrencias)
+      }
+    )
+  }
 }
