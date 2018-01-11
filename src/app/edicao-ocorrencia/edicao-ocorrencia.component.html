@@ -1,0 +1,147 @@
+<section class="content-header">
+</section>
+
+<section class="content">
+  <section class="invoice">
+
+        <form [formGroup]="ocorrenciaForm" novalidate>
+          <div class="row">
+            <div class="col-xs-12">
+              <h2 class="page-header">
+                <i class="fa fa-pencil"></i> Edição de Ocorrência
+              </h2>
+            </div>
+          </div>
+
+          <div class="row invoice-info">
+            <div class="col-xs-12">
+              <p class="lead">Local da ocorrência:</p>
+            </div>
+            <div class="col-sm-12 col-xs-12">
+              <cav-input errorMessage="Campo obrigatório e com no mínimo 4 caracteres!" label="Local do Fato">
+                <input formControlName="local" autocomplete="off" type="text" class="form-control" placeholder="Ex: AV. IMIGRANTES">
+              </cav-input>
+            </div>
+            <!-- /.col -->
+          </div>
+          <!-- /.row -->
+
+          <!--  row -->
+          <div class="row">
+            <div class="col-xs-12">
+              <p class="lead">Detalhes do veículo:</p>
+            </div>
+            <div class="col-sm-2 col-xs-6">
+              <cav-input errorMessage="Campo obrigatório" label="Placa">
+                <input [textMask]="{mask: placaPattern}" formControlName="placa" autocomplete="off" type="text" class="form-control" placeholder="Ex: ABC-1234">
+              </cav-input>
+            </div>
+            <div class="col-sm-2 col-xs-6">
+              <div class="form-group">
+                <cav-input errorMessage="Campo obrigatório" label="Chassis">
+                  <input [textMask]="{mask: chassisPattern}" formControlName="chassis" autocomplete="off" type="text" class="form-control" placeholder="Ex: 00000000000000">
+                </cav-input>
+              </div>
+            </div>
+            <div class="col-sm-2 col-xs-6">
+              <cav-input errorMessage="Campo obrigatório" label="Nº Motor">
+                <input formControlName="numeroMotor" autocomplete="off" type="text" class="form-control" placeholder="Ex: 00000000000000000000">
+              </cav-input>
+            </div>
+            <div class="col-sm-2 col-xs-6">
+              <cav-input errorMessage="Campo obrigatório" label="Ano">
+                <input [textMask]="{mask: anoveiculoPattern}" formControlName="anoVeiculo" autocomplete="off" type="text" class="form-control" placeholder="Ex: 2000">
+              </cav-input>
+            </div>
+            <div class="col-sm-2 col-xs-6">
+              <cav-input errorMessage="Campo obrigatório" label="Cor">
+                <input formControlName="cor" autocomplete="off" type="text" class="form-control" placeholder="Ex: PRETO">
+              </cav-input>
+            </div>
+            <div class="col-sm-2 col-xs-12">
+              <cav-input errorMessage="Campo obrigatório" label="Tipo">
+                <input formControlName="tipoVeiculo" autocomplete="off" type="text" class="form-control" placeholder="Ex: YBR">
+              </cav-input>
+            </div>
+          </div>
+          <!-- /.row -->
+
+          <!--  row -->
+          <div class="row" [class.alert]="selectedProp" [class.alert-warning]="selectedProp" [class.alert-dismissible]="selectedProp">
+            <div class="col-xs-12">
+              <p class="lead">Dados do proprietário:</p>
+            </div>
+            <div class="col-sm-5 col-xs-6">
+              <cav-input errorMessage="Campo obrigatório" label="Nome do proprietário">
+                <!-- <input formControlName="nomeProprietario" autocomplete="off" type="text" class="form-control" placeholder="Ex: ALEXEI LEONTIEV"> -->
+                <p-autoComplete #autocomplete [size]="30" (onSelect)="setProprietario($event)" formControlName="nomeProprietario" styleClass="ui-corner-all" [suggestions]="results" field="nome" placeholder="Digite para procurar proprietarios"></p-autoComplete>
+              </cav-input>
+            </div>
+            <div class="col-sm-3 col-xs-6">
+              <cav-input errorMessage="Campo obrigatório" label="Contato do Proprietário">
+                <input formControlName="contatoProprietario" autocomplete="off" type="text" class="form-control" placeholder="Ex: 999299299">
+              </cav-input>
+            </div>
+            <div class="col-sm-2 col-xs-2" *ngIf="selectedProp">
+              <button (click)="clearProprietario()" class="btn btn-success"><i class="fa fa-refresh"></i></button>
+            </div>
+            <div class="col-sm-12 col-xs-12" *ngIf="selectedProp">
+              <h4><i class="icon fa fa-info"></i> Atenção!</h4>
+              <p>
+                Você selecionou um proprietário já cadastrado em nosso banco de dados.<br />
+                Antes de prosseguir cheque o número do telefone para saber se ele é realmente quem você quer
+                caso não seja, basta clicar no ícone <i class="fa fa-refresh"></i> e pesquisar novamente,
+                caso não consiga encontrar o proprietário que deseja, apenas preencha os dados que ele será criado automaticamente
+              </p>
+            </div>
+          </div>
+          <!-- /.row -->
+
+          <!--  row -->
+          <div class="row">
+            <div class="col-xs-12">
+              <p class="lead">Detalhes da Ocorrência:</p>
+            </div>
+            <div class="col-sm-3 col-xs-6">
+              <cav-input errorMessage="Campo obrigatório" label="Número de Ocorrência">
+                <input [textMask]="{mask: numeroOcorrenciaPattern}" formControlName="numeroOcorrencia" autocomplete="off" type="text" class="form-control" placeholder="Ex: 123456/2018">
+              </cav-input>
+            </div>
+            <div class="col-sm-3 col-xs-6">
+              <cav-select #dpselect [options]="dpOptions" formControlName="dp" [label]="'Local de Registro'"></cav-select>
+            </div>
+            <div class="col-sm-4 col-xs-6">
+              <cav-select #tipoocorrenciaselect [options]="ocorrenciaOptions" formControlName="tipoOcorrencia" [label]="'Ocorrência'"></cav-select>
+            </div>
+            <div class="col-sm-2 col-xs-6">
+              <cav-input errorMessage="Campo obrigatório" label="Data">
+                <input formControlName="data" autocomplete="off" type="date" class="form-control" placeholder="Descrição">
+              </cav-input>
+            </div>
+            <div class="col-sm-12 col-xs-12">
+              <div class="form-group">
+                <label>Observações</label>
+                <textarea formControlName="observacoes" class="form-control" placeholder="Insira aqui informações extras consideradas relevantes" rows="3"></textarea>
+              </div>
+            </div>
+          </div>
+          <!-- /.row -->
+
+        </form>
+
+        <div class="row">
+          <div class="col-xs-12">
+            <button 
+            [disabled]="!ocorrenciaForm.valid"
+            class="btn btn-success pull-right">
+              <i class="fa fa-check"></i> Salvar Ocorrência
+            </button>
+            <!-- <button (click)="testaServico()"
+            class="btn btn-success pull-right">
+              <i class="fa fa-check"></i> Testar Serviço
+            </button> -->
+          </div>
+        </div>
+
+    </section>
+</section>
