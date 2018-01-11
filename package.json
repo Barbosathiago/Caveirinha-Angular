@@ -18,6 +18,7 @@
   },
   "private": true,
   "dependencies": {
+    "@types/datatables.net": "1.10.8",
     "typescript": "2.4.2",
     "@angular/cli": "1.5.4",
     "@angular/compiler-cli": "5.0.0",
