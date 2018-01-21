@@ -87,7 +87,7 @@ export class CadastroOcorrenciaComponent implements OnInit {
     this.numeroMotorProp.setValue(ocorrencia.veiculo.chassis)
     this.corProp.setValue(ocorrencia.veiculo.cor)
     this.tipoVeiculoProp.setValue(ocorrencia.veiculo.tipo)
-    this.dpProp.setValue(ocorrencia.dp.public_id)
+    this.dpProp.setValue(ocorrencia.dp.id)
     this.tipoOcorrenciaProp.setValue(ocorrencia.tipo)
     this.dataProp.setValue(ocorrencia.data)
   }
@@ -126,7 +126,7 @@ export class CadastroOcorrenciaComponent implements OnInit {
     })
     this.ocorrenciasService.getAllDps().subscribe(dps => {
       dps.map(dp => {
-        this.dpOptions.push(new SelectOption(dp.nome, dp.public_id))
+        this.dpOptions.push(new SelectOption(dp.nome, dp.id))
       })
     })
     this.nomeProp.valueChanges
@@ -145,7 +145,10 @@ export class CadastroOcorrenciaComponent implements OnInit {
   setProprietario(event){
     console.log(event)
     this.contatoProp.setValue(event.contato)
-    this.selectedProp = new Proprietario(event.nome, event.contato, event.public_id)
+    this.selectedProp = new Proprietario()
+    this.selectedProp.nome = event.nome
+    this.selectedProp.contato = event.contato
+    this.selectedProp.id = event.public_id
     this.nomeProp.disable()
     this.contatoProp.disable()
   }
@@ -158,28 +161,46 @@ export class CadastroOcorrenciaComponent implements OnInit {
   }
 
   registraOcorrencia(values){
-    let dp: Dp = new Dp(values.dp, 'null');
-    let proprietario: Proprietario = this.selectedProp ? this.selectedProp : new Proprietario(values.nomeProprietario, values.contatoProprietario)
-    let veiculo: Veiculo = new  Veiculo(
-      values.placa, values.tipoVeiculo,
-      proprietario,values.chassis,
-      values.numeroMotor,values.anoVeiculo,
-      values.cor);
-    let ocorrencia: Ocorrencia = new Ocorrencia(
-      values.local,
-      values.numeroOcorrencia,
-      dp,
-      values.tipoOcorrencia,
-      values.situacao,
-      veiculo,
-      values.data,
-      values.observacoes
-    )
+    let dp: Dp = new Dp();
+    dp.id = values.dp
+
+
+    let proprietario: Proprietario = new Proprietario()
+    if(!this.selectedProp){
+      proprietario.nome = values.nomeProprietario
+      proprietario.contato = values.contatoProprietario
+    }else{
+      proprietario = this.selectedProp
+    }
+
+    let veiculo: Veiculo = new Veiculo()
+    veiculo.ano = values.anoVeiculo
+    veiculo.chassis = values.chassis
+    veiculo.cor = values.cor
+    veiculo.numeroMotor = values.numeroMotor
+    veiculo.placa = values.placa
+    veiculo.proprietario = proprietario
+    veiculo.tipo = values.tipoVeiculo
+
+
+    let ocorrencia: Ocorrencia = new Ocorrencia()
+    ocorrencia.localOcorrencia = values.local
+    ocorrencia.numeroOcorrencia = values.numeroOcorrencia
+    ocorrencia.dp_id = values.dp
+    ocorrencia.tipo = values.tipoOcorrencia
+    ocorrencia.situacao = values.situacao
+    ocorrencia.veiculo_id = values.veiculo
+    ocorrencia.data = values.data
+    ocorrencia.observacoes = values.observacoes
+    ocorrencia.veiculo = veiculo
+    ocorrencia.dp = dp
+    ocorrencia.situacao = "PENDENTE"
+
     console.log(values)
     console.log(ocorrencia)
     if(this.selectedProp){
       this.ocorrenciasService.registraVeiculo(ocorrencia.veiculo).subscribe(result => {
-        ocorrencia.veiculo.public_id=result
+        ocorrencia.veiculo_id=result
         this.ocorrenciasService.registraOcorrencia(ocorrencia).subscribe(message => {
           console.log(message)
           this.notificationService.notify('Ocorrência Registrada!')
@@ -190,9 +211,9 @@ export class CadastroOcorrenciaComponent implements OnInit {
     }
     else{
         this.ocorrenciasService.registraProprietario(ocorrencia.veiculo.proprietario).subscribe(result =>{
-          ocorrencia.veiculo.proprietario.public_id=result
+          ocorrencia.veiculo.proprietario_id=result
           this.ocorrenciasService.registraVeiculo(ocorrencia.veiculo).subscribe(result => {
-            ocorrencia.veiculo.public_id=result
+            ocorrencia.veiculo_id=result
             this.ocorrenciasService.registraOcorrencia(ocorrencia).subscribe(message => {
               console.log(message)
               this.notificationService.notify('Ocorrência Registrada!')
