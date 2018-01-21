@@ -87,8 +87,7 @@ export class OcorrenciasService {
       .map(response => {
         var result = response['dps']
         return result
-      })
-      .catch(ErrorHandler.handleError)
+      })      
   }
 
   dpById(id: number): Observable<Dp>{
