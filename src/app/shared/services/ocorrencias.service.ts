@@ -24,7 +24,7 @@ export class OcorrenciasService {
   }
 
   registraOcorrencia(ocorrencia: Ocorrencia):Observable<string>{
-    return this.http.post<string>(`${CAVEIRINHA_API}/ocorrencias`,ocorrencia)
+    return this.http.post<string>(`${CAVEIRINHA_API}/ocorrencia`,ocorrencia)
                         .map(message => message['message'])
   }
 
@@ -68,7 +68,7 @@ export class OcorrenciasService {
   }
 
   registraVeiculo(veiculo: Veiculo): Observable<string>{
-    return this.http.post<string>(`${CAVEIRINHA_API}/veiculos`, veiculo).map(response => response['public_id'])
+    return this.http.post<string>(`${CAVEIRINHA_API}/veiculo`, veiculo).map(response => response['id'])
     .catch(ErrorHandler.handleError)
   }
 
@@ -97,8 +97,8 @@ export class OcorrenciasService {
   }
 
   registraProprietario(proprietario: Proprietario):Observable<string>{
-    return this.http.post<string>(`${CAVEIRINHA_API}/proprietarios`, proprietario)
-            .map(message => message['public_id'])
+    return this.http.post<string>(`${CAVEIRINHA_API}/proprietario`, proprietario)
+            .map(message => message['id'])
   }
 
   getProprietario(nome?: string): Observable<Proprietario[]>{
