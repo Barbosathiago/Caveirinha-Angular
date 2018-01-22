@@ -10,10 +10,20 @@ class Ocorrencia {
   public numeroOcorrencia: string;
   public observacoes: string;
   public situacao: string = 'PENDENTE';
-  public tipo: string;
+  public tipo: Tipo;
+  public tipo_id: string;
   public veiculo: Veiculo;
   public dp: Dp;
   public id: string;
+}
+
+class Tipo{
+  constructor(){
+
+  }
+
+  public descricao: string
+  public id: string
 }
 
 class Veiculo {
@@ -46,4 +56,4 @@ class Proprietario{
   public id: string;
 }
 
-export {Ocorrencia, Dp, Veiculo, Proprietario}
+export {Ocorrencia, Dp, Veiculo, Proprietario, Tipo}
