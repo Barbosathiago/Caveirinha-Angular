@@ -57,7 +57,7 @@
               </div>
             </div>
             <div class="col-sm-2 col-xs-6">
-              <cav-select #dpselect [options]="dpOptions" formControlName="localRegistro" [label]="'Local de Registro'"></cav-select>
+              <cav-select #dpselect [options]="dpOptions" formControlName="dp" [label]="'Local de Registro'"></cav-select>
             </div>
             <div class="col-sm-2 col-xs-6">
               <cav-select #tipoocorrenciaselect [options]="ocorrenciaOptions" formControlName="tipoOcorrencia"  [label]="'Ocorrência'"></cav-select>
@@ -81,7 +81,7 @@
 
 
 
-            <div class="col-sm-2 col-xs-12">
+            <div class="col-sm-12 col-xs-12">
               <div class="form-group">
                 <button (click)="pesquisarOcorrencias(searchForm.value)" class="btn btn-success pull-right">
                   <i class="fa fa-search"></i> Pesquisar
