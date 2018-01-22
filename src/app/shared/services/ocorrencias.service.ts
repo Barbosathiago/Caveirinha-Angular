@@ -28,16 +28,33 @@ export class OcorrenciasService {
                         .map(message => message['message'])
   }
 
-  ocorrencias(placa?: string, numeroMotor?:string, chassis?: string, situacao?:string):Observable<Ocorrencia[]>{
+  ocorrencias(local?:string, placa?: string, chassis?:string, numeroMotor?:string, nomeProp?:string, numeroOcorrencia?:string, localRegistro?:string, tipoOcorrencia?:string, dataInicial?:string, dataFinal?:string, situacao?:string):Observable<Ocorrencia[]>{
+    local = local ? local: ''
     placa = placa ? placa : ''
-    numeroMotor = numeroMotor ? numeroMotor : ''
     chassis = chassis ? chassis : ''
+    numeroMotor = numeroMotor ? numeroMotor : ''
+    nomeProp = nomeProp ? nomeProp : ''
+    numeroOcorrencia = numeroOcorrencia ? numeroOcorrencia : ''
+    localRegistro = localRegistro ? localRegistro : ''
+    tipoOcorrencia = tipoOcorrencia ? tipoOcorrencia : ''
+    dataInicial = dataInicial ? dataInicial : ''
+    dataFinal = dataFinal ? dataFinal : ''
     situacao = situacao ? situacao : ''
     let params: HttpParams = undefined
-    params = new HttpParams().set('placa', placa)
-                            .set('numeroMotor', numeroMotor)
-                            .set('chassis', chassis)
-                            .set('situacao', situacao)
+
+    params = new HttpParams()
+            .set('local', local)
+            .set('placa', placa)
+            .set('chassis', chassis)
+            .set('numeroMotor', numeroMotor)
+            .set('nomeProp', nomeProp)
+            .set('numeroOcorrencia', numeroOcorrencia)
+            .set('localRegistro', localRegistro)
+            .set('tipoOcorrencia', tipoOcorrencia)
+            .set('dataInicial', dataInicial)
+            .set('dataFinal', dataFinal)
+            .set('situacao', situacao)
+
     return this.http.get<Ocorrencia[]>(`${CAVEIRINHA_API}/ocorrencias`, {params: params})
       .catch(ErrorHandler.handleError)
   }
@@ -87,7 +104,7 @@ export class OcorrenciasService {
       .map(response => {
         var result = response['dps']
         return result
-      })      
+      })
   }
 
   dpById(id: number): Observable<Dp>{
