@@ -1,7 +1,10 @@
 import { Component, OnInit, ViewChild, AfterViewInit, TemplateRef } from '@angular/core';
+import {FormGroup, FormBuilder, Validators, AbstractControl, FormControl} from '@angular/forms'
 import { OcorrenciasService } from '../shared/services/ocorrencias.service'
 import {Ocorrencia} from '../shared/models/ocorrencia.model'
 import { DataTableDirective } from 'angular-datatables';
+import {SelectComponent} from '../shared/select/select.component'
+import {SelectOption} from '../shared/select/select-option.model'
 
 import { Subject } from 'rxjs/Subject';
 import {EdicaoOcorrenciaComponent} from '../edicao-ocorrencia/edicao-ocorrencia.component'
@@ -18,6 +21,10 @@ export class ConsultarOcorrenciaComponent implements OnInit, AfterViewInit {
 
   modalRef: BsModalRef;
 
+  @ViewChild('dpselect') dpSelect: SelectComponent
+  @ViewChild('tipoocorrenciaselect') tipoSelect: SelectComponent
+  @ViewChild('situacaoselect') situacaoSelect: SelectComponent
+
   // DataTable properties
   @ViewChild(DataTableDirective)
   dtElement: DataTableDirective;
@@ -32,8 +39,24 @@ export class ConsultarOcorrenciaComponent implements OnInit, AfterViewInit {
   class: 'modal-lg'
   };
 
+  dpOptions: SelectOption[] = [ ]
 
-  constructor(private ocorrenciasService: OcorrenciasService, private modalService: BsModalService) { }
+  ocorrenciaOptions: SelectOption[] = [
+    {option: 'Todos', value: 'TODOS'},
+    {option: 'Roubo', value: 'ROUBO'},
+    {option: 'Furto', value: 'FURTO'}
+  ]
+
+  situacaoOptions: SelectOption[] = [
+    {option: 'Todos', value: 'TODOS'},
+    {option: 'PENDENTE', value: 'PENDENTE'},
+    {option: 'CONCLUIDA', value: 'CONCLUIDA'},
+  ]
+
+  searchForm: FormGroup
+
+
+  constructor(private ocorrenciasService: OcorrenciasService, private modalService: BsModalService, private formBuilder: FormBuilder) { }
 
   openModal(template: TemplateRef<any>){
     this.modalRef = this.modalService.show(template);
@@ -46,6 +69,28 @@ export class ConsultarOcorrenciaComponent implements OnInit, AfterViewInit {
 }
 
   ngOnInit() {
+    this.searchForm = this.formBuilder.group({
+      local: this.formBuilder.control(''),
+      placa: this.formBuilder.control(''),
+      chassis: this.formBuilder.control(''),
+      numeroMotor: this.formBuilder.control(''),
+      nomeProp: this.formBuilder.control(''),
+      numeroOcorrencia: this.formBuilder.control(''),
+      localRegistro: this.formBuilder.control(''),
+      tipoOcorrencia: this.formBuilder.control(''),
+      dataInicial: this.formBuilder.control(''),
+      dataFinal: this.formBuilder.control(''),
+      situacao: this.formBuilder.control('')
+    })
+    this.ocorrenciasService.getAllDps().subscribe(dps => {
+      this.dpOptions.push(new SelectOption('Todos', 'TODOS'))
+      dps.map(dp => {
+        this.dpOptions.push(new SelectOption(dp.nome, dp.id))
+      })
+      this.dpSelect.setValue('TODOS')
+      this.situacaoSelect.setValue('TODOS')
+      this.tipoSelect.setValue(this.ocorrenciaOptions[0].value)
+    })
 
   }
 
@@ -53,16 +98,28 @@ export class ConsultarOcorrenciaComponent implements OnInit, AfterViewInit {
     this.dtTrigger.next()
   }
 
-  pesquisarOcorrencias(placa, motor, chassis){
+  pesquisarOcorrencias(values){
+    console.log(values)
+    let local = values.local
+    let placa = values.placa
+    let chassis = values.chassis
+    let numeroMotor = values.numeroMotor
+    let nomeProp = values.nomeProp
+    let numeroOcorrencia = values.numeroOcorrencia
+    let localRegistro = values.localRegistro
+    let tipoOcorrencia = values.tipoOcorrencia
+    let dataInicial = values.dataInicial
+    let dataFinal = values.dataFinal
+    let situacao = values.situacao
+
+
     if (!this.searched) {
-      this.searched = true
-    }
-    this.ocorrenciasService.ocorrencias(placa, motor, chassis, '').subscribe(result => {
-      this.ocorrencias = result['ocorrencias']
-      this.rerender()
-    })
-
-
+     this.searched = true
+   }
+   this.ocorrenciasService.ocorrencias(local, placa,chassis,numeroMotor,nomeProp, numeroOcorrencia, localRegistro, tipoOcorrencia, dataInicial, dataFinal, situacao).subscribe(result => {
+     this.ocorrencias = result['ocorrencias']
+     this.rerender()
+   })
   }
 
   concluirOcorrencia(ocorrencia, action: string){
