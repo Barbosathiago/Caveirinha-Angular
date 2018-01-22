@@ -132,6 +132,7 @@ export class ConsultarOcorrenciaComponent implements OnInit, AfterViewInit {
       result.situacao = action === 'C'? 'CONCLUIDA': 'PENDENTE'
       result.dp_id = result.dp.id
       result.veiculo_id = result.veiculo.id
+      result.tipo_id = result.tipo.id
       this.ocorrenciasService.updateOcorrencia(result).subscribe(response => {
         console.log()
         this.ocorrencias[this.ocorrencias.indexOf(ocorrencia)] = result
