@@ -56,7 +56,6 @@ export class OcorrenciasService {
             .set('situacao', situacao)
 
     return this.http.get<Ocorrencia[]>(`${CAVEIRINHA_API}/ocorrencias`, {params: params})
-      .catch(ErrorHandler.handleError)
   }
 
   ocorrenciasById(id: number): Observable<Ocorrencia>{
@@ -64,15 +63,14 @@ export class OcorrenciasService {
       .catch(ErrorHandler.handleError)
   }
 
-  updateOcorrencia(ocorrencia: Ocorrencia): Observable<any>{
+  updateOcorrencia(ocorrencia: Ocorrencia): Observable<Ocorrencia>{
     console.log(ocorrencia)
-    return this.http.put(`${CAVEIRINHA_API}/ocorrencia`, ocorrencia)
+    return this.http.put<Ocorrencia>(`${CAVEIRINHA_API}/ocorrencia`, ocorrencia)
 
   }
 
   ocorrenciasOfVeiculo(id: number): Observable<Ocorrencia[]>{
-    return this.http.get(`${CAVEIRINHA_API}/veiculo/${id}/ocorrencias`)
-      .catch(ErrorHandler.handleError)
+    return this.http.get<Ocorrencia[]>(`${CAVEIRINHA_API}/veiculo/${id}/ocorrencias`)
   }
 
   ocorrenciasOfDp(id: number): Observable<Ocorrencia[]>{
@@ -90,14 +88,8 @@ export class OcorrenciasService {
     .catch(ErrorHandler.handleError)
   }
 
-  veiculoById(id: number): Observable<Veiculo>{
-    return this.http.get(`${CAVEIRINHA_API}/veiculo/${id}`)
-      .catch(ErrorHandler.handleError)
-  }
-
-  veiculoOfOcorrencia(id: number): Observable<Veiculo>{
-    return this.http.get(`${CAVEIRINHA_API}/ocorrencias/${id}/veiculo`)
-      .catch(ErrorHandler.handleError)
+  updateVeiculo(veiculo: Veiculo): Observable<Veiculo>{
+    return this.http.put<Veiculo>(`${CAVEIRINHA_API}/veiculo`, veiculo)
   }
 
   getAllDps():Observable<Dp[]>{
@@ -116,6 +108,10 @@ export class OcorrenciasService {
   registraProprietario(proprietario: Proprietario):Observable<string>{
     return this.http.post<string>(`${CAVEIRINHA_API}/proprietario`, proprietario)
             .map(message => message['id'])
+  }
+
+  updateProprietario(proprietario: Proprietario):Observable<Proprietario>{
+    return this.http.put<Proprietario>(`${CAVEIRINHA_API}/proprietario`, proprietario)
   }
 
   getProprietario(nome?: string): Observable<Proprietario[]>{

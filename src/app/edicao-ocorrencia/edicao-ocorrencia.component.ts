@@ -78,20 +78,17 @@ export class EdicaoOcorrenciaComponent implements OnInit {
 
 
   selectedProp: Proprietario = null
+  passedOco: Ocorrencia = null
 
   constructor(private ocorrenciasService: OcorrenciasService,
               private formBuilder: FormBuilder,
               private notificationService: NotificationService)
   {
-    if(this.editMode){
-      console.log('Essa porra ja veio inicializada mano, olooooco o.o')
-    }else{
-      console.log('ou não :/')
-    }
+
   }
 
   initializeInEditMode(ocorrencia: Ocorrencia){
-    console.log(ocorrencia)
+
     this.ocorrenciasService.getProprietario(ocorrencia.veiculo.proprietario.nome).subscribe(
       result => this.results = result
     )
@@ -100,6 +97,7 @@ export class EdicaoOcorrenciaComponent implements OnInit {
     this.dpSelect.setValue(ocorrencia.dp.id)
     this.tipoSelect.setValue(ocorrencia.tipo)
     this.selectedProp = ocorrencia.veiculo.proprietario
+    this.passedOco = ocorrencia
     console.log(this.ocorrenciaForm.errors)
   }
 
@@ -131,7 +129,7 @@ export class EdicaoOcorrenciaComponent implements OnInit {
     this.placaProp = this.formBuilder.control('', [Validators.required, Validators.minLength(8), Validators.maxLength(8)]),
     this.anoVeiculoProp = this.formBuilder.control('', [Validators.maxLength(4)]);
     this.chassisProp = this.formBuilder.control('', [Validators.maxLength(17)]);
-    this.numeroMotorProp = this.formBuilder.control('', [Validators.maxLength(15)]);
+    this.numeroMotorProp = this.formBuilder.control('', [Validators.maxLength(17)]);
     this.corProp = this.formBuilder.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(50)]);
     this.tipoVeiculoProp = this.formBuilder.control('', [Validators.required]);
     this.dpProp = this.formBuilder.control('', [Validators.required]);
@@ -165,19 +163,20 @@ export class EdicaoOcorrenciaComponent implements OnInit {
     .catch(error => Observable.from([])))
     .subscribe(proprietarios => {
       this.results = proprietarios
-      console.log(this.results)
+
     })
 
 
   }
 
 setProprietario(event){
-  console.log(event)
+
   this.contatoProp.setValue(event.contato)
   this.selectedProp = new Proprietario()
   this.selectedProp.nome = event.nome
   this.selectedProp.contato = event.contato
-  this.selectedProp.id = event.public_id
+  this.selectedProp.id = event.id
+  this.nomeProp.setValue(event.nome)
   this.nomeProp.disable()
   this.contatoProp.disable()
 }
@@ -190,6 +189,7 @@ clearProprietario(){
 }
 
 salvaOcorrencia(values){
+  console.log(values)
   let dp: Dp = new Dp();
   dp.id = values.dp
 
@@ -199,15 +199,22 @@ salvaOcorrencia(values){
     proprietario.nome = values.nomeProprietario
     proprietario.contato = values.contatoProprietario
   }else{
-    proprietario = this.selectedProp
+    proprietario.nome = values.nomeProprietario
+    proprietario.contato = values.contatoProprietario
+    proprietario.id = this.selectedProp.id
   }
+
 
   let veiculo: Veiculo = new Veiculo()
   veiculo.ano = values.anoVeiculo
-  veiculo.chassis = values.chassisP
-  veiculo.cor = values.core
+  veiculo.chassis = values.chassis
+  veiculo.cor = values.cor
   veiculo.numeroMotor = values.numeroMotor
   veiculo.placa = values.placa
+  veiculo.id = this.passedOco.veiculo.id
+  veiculo.proprietario_id = proprietario.id
+  veiculo.tipo = values.tipoVeiculo
+  veiculo.proprietario = proprietario
 
 
   let ocorrencia: Ocorrencia = new Ocorrencia()
@@ -215,34 +222,36 @@ salvaOcorrencia(values){
   ocorrencia.numeroOcorrencia = values.numeroOcorrencia
   ocorrencia.dp_id = values.dp
   ocorrencia.tipo = values.tipoOcorrencia
-  ocorrencia.situacao = values.situacao
+  ocorrencia.situacao = this.passedOco.situacao
   ocorrencia.veiculo_id = values.veiculo
   ocorrencia.data = values.data
   ocorrencia.observacoes = values.observacoes
+  ocorrencia.id = this.passedOco.id
+  ocorrencia.veiculo = veiculo
+  // console.log(ocorrencia)
 
-  console.log(values)
-  console.log(ocorrencia)
   if(this.selectedProp){
-    this.ocorrenciasService.registraVeiculo(ocorrencia.veiculo).subscribe(result => {
-      ocorrencia.veiculo.id=result
-      this.ocorrenciasService.registraOcorrencia(ocorrencia).subscribe(message => {
-        console.log(message)
-        this.notificationService.notify('Ocorrência Registrada!')
-        this.ocorrenciaForm.reset()
-        this.clearProprietario()
+    proprietario.nome = this.nomeProp.value
+    proprietario.contato = this.contatoProp.value
+    proprietario.id = this.selectedProp.id
+    console.log(proprietario)
+
+    this.ocorrenciasService.updateProprietario(proprietario).subscribe(result => {
+      this.ocorrenciasService.updateVeiculo(ocorrencia.veiculo).subscribe(result => {
+        ocorrencia.veiculo_id=result.id
+        console.log(ocorrencia)
+        this.ocorrenciasService.updateOcorrencia(ocorrencia).subscribe(result => {
+        })
       })
     })
+
   }
   else{
-      this.ocorrenciasService.registraProprietario(ocorrencia.veiculo.proprietario).subscribe(result =>{
-        ocorrencia.veiculo.proprietario.id=result
-        this.ocorrenciasService.registraVeiculo(ocorrencia.veiculo).subscribe(result => {
-          ocorrencia.veiculo.id=result
-          this.ocorrenciasService.registraOcorrencia(ocorrencia).subscribe(message => {
-            console.log(message)
-            this.notificationService.notify('Ocorrência Registrada!')
-            this.ocorrenciaForm.reset()
-            this.clearProprietario()
+      this.ocorrenciasService.registraProprietario(proprietario).subscribe(result =>{
+        veiculo.proprietario_id=result
+        this.ocorrenciasService.updateVeiculo(veiculo).subscribe(result => {
+          ocorrencia.veiculo_id = result.id
+          this.ocorrenciasService.updateOcorrencia(ocorrencia).subscribe(result => {
           })
         })
       })
@@ -254,13 +263,8 @@ testaServico(){
   this.ocorrenciasService.getTwoOcorrencias('d8c6b91a-4895-4795-9069-899c3b381ea2','088222c2-4712-4c31-bbb8-6b005563aed3').subscribe(
     data => {
       this.notificationService.notify('Ocorrência Registrada!')
-      console.log(ocorrencias)
+      // console.log(ocorrencias)
     }
   )
 }
-
-
-
-
-
 }
