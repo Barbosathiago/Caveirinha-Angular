@@ -7,7 +7,7 @@ import 'rxjs/add/operator/map'
 import 'rxjs/add/observable/forkJoin'
 import 'rxjs/add/operator/catch'
 
-import {Ocorrencia, Dp, Veiculo, Proprietario} from '../models/ocorrencia.model'
+import {Ocorrencia, Dp, Veiculo, Proprietario, Tipo} from '../models/ocorrencia.model'
 
 import {CAVEIRINHA_API} from '../../app.api'
 import {ErrorHandler} from '../app.error-handler'
@@ -28,14 +28,14 @@ export class OcorrenciasService {
                         .map(message => message['message'])
   }
 
-  ocorrencias(local?:string, placa?: string, chassis?:string, numeroMotor?:string, nomeProp?:string, numeroOcorrencia?:string, dp?:string, tipoOcorrencia?:string, dataInicial?:string, dataFinal?:string, situacao?:string):Observable<Ocorrencia[]>{
+  ocorrencias(local?:string, placa?: string, chassis?:string, numeroMotor?:string, nomeProp?:string, numeroOcorrencia?:string, dp_id?:string, tipoOcorrencia?:string, dataInicial?:string, dataFinal?:string, situacao?:string):Observable<Ocorrencia[]>{
     local = local ? local: ''
     placa = placa ? placa : ''
     chassis = chassis ? chassis : ''
     numeroMotor = numeroMotor ? numeroMotor : ''
     nomeProp = nomeProp ? nomeProp : ''
     numeroOcorrencia = numeroOcorrencia ? numeroOcorrencia : ''
-    dp = dp ? dp : ''
+    dp_id = dp_id ? dp_id : ''
     tipoOcorrencia = tipoOcorrencia ? tipoOcorrencia : ''
     dataInicial = dataInicial ? dataInicial : ''
     dataFinal = dataFinal ? dataFinal : ''
@@ -49,7 +49,7 @@ export class OcorrenciasService {
             .set('numeroMotor', numeroMotor)
             .set('nomeProp', nomeProp)
             .set('numeroOcorrencia', numeroOcorrencia)
-            .set('dp', dp)
+            .set('dp_id', dp_id)
             .set('tipoOcorrencia', tipoOcorrencia)
             .set('dataInicial', dataInicial)
             .set('dataFinal', dataFinal)
@@ -103,6 +103,14 @@ export class OcorrenciasService {
   dpById(id: number): Observable<Dp>{
     return this.http.get(`${CAVEIRINHA_API}/dp/${id}`)
       .catch(ErrorHandler.handleError)
+  }
+
+  getAllTipos():Observable<Tipo[]>{
+    return this.http.get<Tipo[]>(`${CAVEIRINHA_API}/ocorrencia/tipos`)
+        .map(result => {
+          var tipos = result['tipos']
+          return tipos
+        })
   }
 
   registraProprietario(proprietario: Proprietario):Observable<string>{
