@@ -76,14 +76,14 @@ export class ConsultarOcorrenciaComponent implements OnInit, AfterViewInit {
       numeroMotor: this.formBuilder.control(''),
       nomeProp: this.formBuilder.control(''),
       numeroOcorrencia: this.formBuilder.control(''),
-      localRegistro: this.formBuilder.control(''),
+      dp: this.formBuilder.control(''),
       tipoOcorrencia: this.formBuilder.control(''),
       dataInicial: this.formBuilder.control(''),
       dataFinal: this.formBuilder.control(''),
       situacao: this.formBuilder.control('')
     })
     this.ocorrenciasService.getAllDps().subscribe(dps => {
-      this.dpOptions.push(new SelectOption('Todos', 'TODOS'))
+      this.dpOptions.push(new SelectOption('Todos', ''))
       dps.map(dp => {
         this.dpOptions.push(new SelectOption(dp.nome, dp.id))
       })
@@ -106,28 +106,31 @@ export class ConsultarOcorrenciaComponent implements OnInit, AfterViewInit {
     let numeroMotor = values.numeroMotor
     let nomeProp = values.nomeProp
     let numeroOcorrencia = values.numeroOcorrencia
-    let localRegistro = values.localRegistro
+    let dp = values.dp
     let tipoOcorrencia = values.tipoOcorrencia
     let dataInicial = values.dataInicial
     let dataFinal = values.dataFinal
     let situacao = values.situacao
+    console.log(dp)
 
 
-    if (!this.searched) {
+  if (!this.searched) {
      this.searched = true
    }
-   this.ocorrenciasService.ocorrencias(local, placa,chassis,numeroMotor,nomeProp, numeroOcorrencia, localRegistro, tipoOcorrencia, dataInicial, dataFinal, situacao).subscribe(result => {
+   this.ocorrenciasService.ocorrencias(local, placa,chassis,numeroMotor,nomeProp, numeroOcorrencia, dp, tipoOcorrencia, dataInicial, dataFinal, situacao).subscribe(result => {
      this.ocorrencias = result['ocorrencias']
      this.rerender()
-   })
+   }
+   )
   }
 
   concluirOcorrencia(ocorrencia, action: string){
-    let idOcorrencia = ocorrencia.public_id
-    this.ocorrenciasService.ocorrenciasById(idOcorrencia).subscribe(result => {
-      result = result['ocorrencia']
+    this.ocorrenciasService.ocorrenciasById(ocorrencia.id).subscribe(result => {
+      console.log(result)
       result.situacao = action === 'C'? 'CONCLUÍDA': 'PENDENTE'
-      this.ocorrenciasService.updateOcorrencia(idOcorrencia, result).subscribe(response => {
+      result.dp_id = result.dp.id
+      result.veiculo_id = result.veiculo.id
+      this.ocorrenciasService.updateOcorrencia(result).subscribe(response => {
         console.log()
         this.ocorrencias[this.ocorrencias.indexOf(ocorrencia)] = result
         this.rerender()
