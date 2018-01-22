@@ -12,7 +12,7 @@ import {Observable} from 'rxjs/Observable'
 import {OcorrenciasService} from '../shared/services/ocorrencias.service'
 import {NotificationService} from '../shared/services/notification.service'
 import {SelectOption} from '../shared/select/select-option.model'
-import {Ocorrencia, Veiculo, Dp, Proprietario} from '../shared/models/ocorrencia.model'
+import {Ocorrencia, Veiculo, Dp, Proprietario, Tipo} from '../shared/models/ocorrencia.model'
 import {chassisP,numeroCasaP,placaP, anoVeiculoP, numeroOcorrenciaP} from '../shared/text-masks'
 
 @Component({
@@ -47,8 +47,6 @@ export class CadastroOcorrenciaComponent implements OnInit {
   dpOptions: SelectOption[] = [ ]
 
   ocorrenciaOptions: SelectOption[] = [
-    {option: 'Roubo', value: 'ROUBO'},
-    {option: 'Furto', value: 'FURTO'},
   ]
 
   text: string;
@@ -134,6 +132,11 @@ export class CadastroOcorrenciaComponent implements OnInit {
         this.dpOptions.push(new SelectOption(dp.nome, dp.id))
       })
       this.dpSelect.setValue(this.dpOptions[0].value)
+    })
+    this.ocorrenciasService.getAllTipos().subscribe(tipos => {
+      tipos.map(tipo => {
+        this.ocorrenciaOptions.push(new SelectOption(tipo.descricao, tipo.id))
+      })
       this.tipoSelect.setValue(this.ocorrenciaOptions[0].value)
     })
     this.nomeProp.valueChanges
@@ -193,7 +196,7 @@ export class CadastroOcorrenciaComponent implements OnInit {
     ocorrencia.localOcorrencia = values.local
     ocorrencia.numeroOcorrencia = values.numeroOcorrencia
     ocorrencia.dp_id = values.dp
-    ocorrencia.tipo = values.tipoOcorrencia
+    ocorrencia.tipo_id = values.tipoOcorrencia
     ocorrencia.situacao = values.situacao
     ocorrencia.veiculo_id = values.veiculo
     ocorrencia.data = values.data

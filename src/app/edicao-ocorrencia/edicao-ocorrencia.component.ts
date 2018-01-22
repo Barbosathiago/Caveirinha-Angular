@@ -51,10 +51,7 @@ export class EdicaoOcorrenciaComponent implements OnInit {
 
   dpOptions: SelectOption[] = [ ]
 
-  ocorrenciaOptions: SelectOption[] = [
-    {option: 'Roubo', value: 'ROUBO'},
-    {option: 'Furto', value: 'FURTO'},
-  ]
+  ocorrenciaOptions: SelectOption[] = [ ]
 
   text: string;
 
@@ -95,7 +92,7 @@ export class EdicaoOcorrenciaComponent implements OnInit {
     this.setValues(ocorrencia)
     this.autocompleteInput.inputEL.nativeElement.value = ocorrencia.veiculo.proprietario.nome;
     this.dpSelect.setValue(ocorrencia.dp.id)
-    this.tipoSelect.setValue(ocorrencia.tipo)
+    this.tipoSelect.setValue(ocorrencia.tipo.id)
     this.selectedProp = ocorrencia.veiculo.proprietario
     this.passedOco = ocorrencia
     console.log(this.ocorrenciaForm.errors)
@@ -154,6 +151,11 @@ export class EdicaoOcorrenciaComponent implements OnInit {
     this.ocorrenciasService.getAllDps().subscribe(dps => {
       dps.map(dp => {
         this.dpOptions.push(new SelectOption(dp.nome, dp.id))
+      })
+    })
+    this.ocorrenciasService.getAllTipos().subscribe(tipos => {
+      tipos.map(tipo => {
+        this.ocorrenciaOptions.push(new SelectOption(tipo.descricao, tipo.id))
       })
     })
     this.nomeProp.valueChanges
@@ -221,14 +223,14 @@ salvaOcorrencia(values){
   ocorrencia.localOcorrencia = values.local
   ocorrencia.numeroOcorrencia = values.numeroOcorrencia
   ocorrencia.dp_id = values.dp
-  ocorrencia.tipo = values.tipoOcorrencia
+  ocorrencia.tipo_id = values.tipoOcorrencia
   ocorrencia.situacao = this.passedOco.situacao
   ocorrencia.veiculo_id = values.veiculo
   ocorrencia.data = values.data
   ocorrencia.observacoes = values.observacoes
   ocorrencia.id = this.passedOco.id
   ocorrencia.veiculo = veiculo
-  // console.log(ocorrencia)
+  console.log(values.tipoOcorrencia)
 
   if(this.selectedProp){
     proprietario.nome = this.nomeProp.value

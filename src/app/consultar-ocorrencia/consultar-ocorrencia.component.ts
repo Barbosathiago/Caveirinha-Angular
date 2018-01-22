@@ -41,11 +41,7 @@ export class ConsultarOcorrenciaComponent implements OnInit, AfterViewInit {
 
   dpOptions: SelectOption[] = [ ]
 
-  ocorrenciaOptions: SelectOption[] = [
-    {option: 'Todos', value: ''},
-    {option: 'Roubo', value: 'ROUBO'},
-    {option: 'Furto', value: 'FURTO'}
-  ]
+  ocorrenciaOptions: SelectOption[] = [ ]
 
   situacaoOptions: SelectOption[] = [
     {option: 'Todos', value: ''},
@@ -89,7 +85,13 @@ export class ConsultarOcorrenciaComponent implements OnInit, AfterViewInit {
       })
       this.dpSelect.setValue('')
       this.situacaoSelect.setValue('')
-      this.tipoSelect.setValue(this.ocorrenciaOptions[0].value)
+    })
+    this.ocorrenciasService.getAllTipos().subscribe(tipos => {
+      this.ocorrenciaOptions.push(new SelectOption('Todos', ''))
+      tipos.map(tipo => {
+        this.ocorrenciaOptions.push(new SelectOption(tipo.descricao, tipo.id))
+      })
+      this.tipoSelect.setValue('')
     })
 
   }
@@ -106,18 +108,18 @@ export class ConsultarOcorrenciaComponent implements OnInit, AfterViewInit {
     let numeroMotor = values.numeroMotor
     let nomeProp = values.nomeProp
     let numeroOcorrencia = values.numeroOcorrencia
-    let dp = values.dp
+    let dp_id = values.dp
     let tipoOcorrencia = values.tipoOcorrencia
     let dataInicial = values.dataInicial
     let dataFinal = values.dataFinal
     let situacao = values.situacao
-    console.log(dp)
+    console.log(dp_id)
 
 
   if (!this.searched) {
      this.searched = true
    }
-   this.ocorrenciasService.ocorrencias(local, placa,chassis,numeroMotor,nomeProp, numeroOcorrencia, dp, tipoOcorrencia, dataInicial, dataFinal, situacao).subscribe(result => {
+   this.ocorrenciasService.ocorrencias(local, placa,chassis,numeroMotor,nomeProp, numeroOcorrencia, dp_id, tipoOcorrencia, dataInicial, dataFinal, situacao).subscribe(result => {
      this.ocorrencias = result['ocorrencias']
      this.rerender()
    }
