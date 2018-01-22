@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {FormGroup, FormBuilder, Validators, AbstractControl, FormControl} from '@angular/forms'
 import 'rxjs/add/operator/map'
 import 'rxjs/add/operator/switchMap'
@@ -6,6 +6,7 @@ import 'rxjs/add/operator/debounceTime'
 import 'rxjs/add/operator/distinctUntilChanged'
 import 'rxjs/add/operator/catch'
 import 'rxjs/add/observable/from'
+import {SelectComponent} from '../shared/select/select.component'
 import {Observable} from 'rxjs/Observable'
 
 import {OcorrenciasService} from '../shared/services/ocorrencias.service'
@@ -19,6 +20,9 @@ import {chassisP,numeroCasaP,placaP, anoVeiculoP, numeroOcorrenciaP} from '../sh
   templateUrl: './cadastro-ocorrencia.component.html',
 })
 export class CadastroOcorrenciaComponent implements OnInit {
+
+  @ViewChild('dpselect') dpSelect: SelectComponent
+  @ViewChild('tipoocorrenciaselect') tipoSelect: SelectComponent
 
 
   placaPattern = [/[A-Z]/i,/[A-Z]/i,/[A-Z]/i,'-',/\d/,/\d/,/\d/,/\d/]
@@ -72,7 +76,8 @@ export class CadastroOcorrenciaComponent implements OnInit {
 
   constructor(private ocorrenciasService: OcorrenciasService,
               private formBuilder: FormBuilder,
-              private notificationService: NotificationService){}
+              private notificationService: NotificationService){
+              }
 
 
   setValues(ocorrencia: Ocorrencia){
@@ -128,6 +133,8 @@ export class CadastroOcorrenciaComponent implements OnInit {
       dps.map(dp => {
         this.dpOptions.push(new SelectOption(dp.nome, dp.id))
       })
+      this.dpSelect.setValue(this.dpOptions[0].value)
+      this.tipoSelect.setValue(this.ocorrenciaOptions[0].value)
     })
     this.nomeProp.valueChanges
     .debounceTime(500)
@@ -141,7 +148,6 @@ export class CadastroOcorrenciaComponent implements OnInit {
 
 
   }
-
   setProprietario(event){
     console.log(event)
     this.contatoProp.setValue(event.contato)

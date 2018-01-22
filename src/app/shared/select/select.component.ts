@@ -24,9 +24,10 @@ export class SelectComponent implements OnInit, ControlValueAccessor {
   constructor() { }
 
   ngOnInit() {
+
   }
 
-  onChange: any
+  onChange: any  
 
   setValue(value: any){
     this.value = value
