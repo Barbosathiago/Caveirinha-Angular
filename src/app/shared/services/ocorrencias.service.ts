@@ -28,14 +28,14 @@ export class OcorrenciasService {
                         .map(message => message['message'])
   }
 
-  ocorrencias(local?:string, placa?: string, chassis?:string, numeroMotor?:string, nomeProp?:string, numeroOcorrencia?:string, localRegistro?:string, tipoOcorrencia?:string, dataInicial?:string, dataFinal?:string, situacao?:string):Observable<Ocorrencia[]>{
+  ocorrencias(local?:string, placa?: string, chassis?:string, numeroMotor?:string, nomeProp?:string, numeroOcorrencia?:string, dp?:string, tipoOcorrencia?:string, dataInicial?:string, dataFinal?:string, situacao?:string):Observable<Ocorrencia[]>{
     local = local ? local: ''
     placa = placa ? placa : ''
     chassis = chassis ? chassis : ''
     numeroMotor = numeroMotor ? numeroMotor : ''
     nomeProp = nomeProp ? nomeProp : ''
     numeroOcorrencia = numeroOcorrencia ? numeroOcorrencia : ''
-    localRegistro = localRegistro ? localRegistro : ''
+    dp = dp ? dp : ''
     tipoOcorrencia = tipoOcorrencia ? tipoOcorrencia : ''
     dataInicial = dataInicial ? dataInicial : ''
     dataFinal = dataFinal ? dataFinal : ''
@@ -49,7 +49,7 @@ export class OcorrenciasService {
             .set('numeroMotor', numeroMotor)
             .set('nomeProp', nomeProp)
             .set('numeroOcorrencia', numeroOcorrencia)
-            .set('localRegistro', localRegistro)
+            .set('dp', dp)
             .set('tipoOcorrencia', tipoOcorrencia)
             .set('dataInicial', dataInicial)
             .set('dataFinal', dataFinal)
@@ -60,13 +60,14 @@ export class OcorrenciasService {
   }
 
   ocorrenciasById(id: number): Observable<Ocorrencia>{
-    return this.http.get(`${CAVEIRINHA_API}/ocorrencias/${id}`)
+    return this.http.get(`${CAVEIRINHA_API}/ocorrencia/${id}`)
       .catch(ErrorHandler.handleError)
   }
 
-  updateOcorrencia(id: number, ocorrencia: Ocorrencia): Observable<Ocorrencia>{
-    return this.http.put(`${CAVEIRINHA_API}/ocorrencias/${id}`, ocorrencia)
-      .catch(ErrorHandler.handleError)
+  updateOcorrencia(ocorrencia: Ocorrencia): Observable<any>{
+    console.log(ocorrencia)
+    return this.http.put(`${CAVEIRINHA_API}/ocorrencia`, ocorrencia)
+
   }
 
   ocorrenciasOfVeiculo(id: number): Observable<Ocorrencia[]>{
