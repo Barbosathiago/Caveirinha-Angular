@@ -127,7 +127,7 @@ export class ConsultarOcorrenciaComponent implements OnInit, AfterViewInit {
   concluirOcorrencia(ocorrencia, action: string){
     this.ocorrenciasService.ocorrenciasById(ocorrencia.id).subscribe(result => {
       console.log(result)
-      result.situacao = action === 'C'? 'CONCLUÍDA': 'PENDENTE'
+      result.situacao = action === 'C'? 'CONCLUIDA': 'PENDENTE'
       result.dp_id = result.dp.id
       result.veiculo_id = result.veiculo.id
       this.ocorrenciasService.updateOcorrencia(result).subscribe(response => {

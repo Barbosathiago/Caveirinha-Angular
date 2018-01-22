@@ -116,11 +116,12 @@
             <td><small>{{ocorrencia.veiculo.chassis}}</small></td>
             <td><small>{{ocorrencia.veiculo.numeroMotor}}</small></td>
             <td><small>{{ocorrencia.veiculo.proprietario.nome}}</small></td>
-            <td><span class="label"
+            <td><small><span class="label"
                       [class.label-danger]="ocorrencia.situacao === 'PENDENTE'"
-                      [class.label-success]="ocorrencia.situacao === 'CONCLUÍDA'" >{{ocorrencia.situacao}}</span></td>
+                      [class.label-success]="ocorrencia.situacao === 'CONCLUIDA'" >{{ocorrencia.situacao}}</span></small>
+            </td>
             <td>
-              <button [disabled]="ocorrencia.situacao === 'CONCLUÍDA'" (click)="concluirOcorrencia(ocorrencia, 'C')" class="btn btn-xs btn-success"><i class="fa fa-check"></i></button>
+              <button [disabled]="ocorrencia.situacao === 'CONCLUIDA'" (click)="concluirOcorrencia(ocorrencia, 'C')" class="btn btn-xs btn-success"><i class="fa fa-check"></i></button>
               <button [disabled]="ocorrencia.situacao === 'PENDENTE'" (click)="concluirOcorrencia(ocorrencia, 'R')" class="btn btn-xs btn-warning"><i class="fa fa-refresh"></i></button>
               <button class="btn btn-xs btn-info" (click)="openModalWithComponent(ocorrencia)"><i class="fa fa-pencil"></i></button>
             </td>
