@@ -42,13 +42,13 @@ export class ConsultarOcorrenciaComponent implements OnInit, AfterViewInit {
   dpOptions: SelectOption[] = [ ]
 
   ocorrenciaOptions: SelectOption[] = [
-    {option: 'Todos', value: 'TODOS'},
+    {option: 'Todos', value: ''},
     {option: 'Roubo', value: 'ROUBO'},
     {option: 'Furto', value: 'FURTO'}
   ]
 
   situacaoOptions: SelectOption[] = [
-    {option: 'Todos', value: 'TODOS'},
+    {option: 'Todos', value: ''},
     {option: 'PENDENTE', value: 'PENDENTE'},
     {option: 'CONCLUIDA', value: 'CONCLUIDA'},
   ]
@@ -87,8 +87,8 @@ export class ConsultarOcorrenciaComponent implements OnInit, AfterViewInit {
       dps.map(dp => {
         this.dpOptions.push(new SelectOption(dp.nome, dp.id))
       })
-      this.dpSelect.setValue('TODOS')
-      this.situacaoSelect.setValue('TODOS')
+      this.dpSelect.setValue('')
+      this.situacaoSelect.setValue('')
       this.tipoSelect.setValue(this.ocorrenciaOptions[0].value)
     })
 
