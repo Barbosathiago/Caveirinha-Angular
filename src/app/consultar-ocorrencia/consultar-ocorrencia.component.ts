@@ -113,14 +113,13 @@ export class ConsultarOcorrenciaComponent implements OnInit, AfterViewInit {
     let dataInicial = values.dataInicial
     let dataFinal = values.dataFinal
     let situacao = values.situacao
-    console.log(dp_id)
 
-
-  if (!this.searched) {
-     this.searched = true
-   }
    this.ocorrenciasService.ocorrencias(local, placa,chassis,numeroMotor,nomeProp, numeroOcorrencia, dp_id, tipoOcorrencia, dataInicial, dataFinal, situacao).subscribe(result => {
-     this.ocorrencias = result['ocorrencias']
+     if (!this.searched) {
+        this.searched = true
+      }
+     console.log(result)
+     this.ocorrencias = result
      this.rerender()
    }
    )
