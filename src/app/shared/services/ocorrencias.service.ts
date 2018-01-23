@@ -50,12 +50,17 @@ export class OcorrenciasService {
             .set('nomeProp', nomeProp)
             .set('numeroOcorrencia', numeroOcorrencia)
             .set('dp_id', dp_id)
-            .set('tipoOcorrencia', tipoOcorrencia)
+            .set('tipo_id', tipoOcorrencia)
             .set('dataInicial', dataInicial)
             .set('dataFinal', dataFinal)
             .set('situacao', situacao)
 
     return this.http.get<Ocorrencia[]>(`${CAVEIRINHA_API}/ocorrencias`, {params: params})
+      .map(response => {
+        var result = response['ocorrencias']
+        return result
+      })
+
   }
 
   ocorrenciasById(id: number): Observable<Ocorrencia>{
