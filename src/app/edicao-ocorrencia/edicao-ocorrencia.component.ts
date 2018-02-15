@@ -1,81 +1,81 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import {FormGroup, FormBuilder, Validators, AbstractControl, FormControl} from '@angular/forms'
-import 'rxjs/add/operator/map'
-import 'rxjs/add/operator/switchMap'
-import 'rxjs/add/operator/debounceTime'
-import 'rxjs/add/operator/distinctUntilChanged'
-import 'rxjs/add/operator/catch'
-import 'rxjs/add/observable/from'
-import {Observable} from 'rxjs/Observable'
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/switchMap';
+import 'rxjs/add/operator/debounceTime';
+import 'rxjs/add/operator/distinctUntilChanged';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/observable/from';
+import {Observable} from 'rxjs/Observable';
 
-import {OcorrenciasService} from '../shared/services/ocorrencias.service'
-import {NotificationService} from '../shared/services/notification.service'
-import {SelectOption} from '../shared/select/select-option.model'
-import {Ocorrencia, Veiculo, Dp, Proprietario} from '../shared/models/ocorrencia.model'
-import {chassisP,numeroCasaP,placaP, anoVeiculoP, numeroOcorrenciaP} from '../shared/text-masks'
-import {AutoComplete} from 'primeng/primeng'
-import {SelectComponent} from '../shared/select/select.component'
+import {OcorrenciasService} from '../shared/services/ocorrencias.service';
+import {NotificationService} from '../shared/services/notification.service';
+import {SelectOption} from '../shared/select/select-option.model';
+import {Ocorrencia, Veiculo, Dp, Proprietario} from '../shared/models/ocorrencia.model';
+import {chassisP,numeroCasaP,placaP, anoVeiculoP, numeroOcorrenciaP} from '../shared/text-masks';
+import {AutoComplete} from 'primeng/primeng';
+import {SelectComponent} from '../shared/select/select.component';
 
 @Component({
   selector: 'cav-edicao-ocorrencia',
   templateUrl: './edicao-ocorrencia.component.html',
 })
 export class EdicaoOcorrenciaComponent implements OnInit {
-  @ViewChild('autocomplete') autocompleteInput: AutoComplete
-  @ViewChild('dpselect') dpSelect: SelectComponent
-  @ViewChild('tipoocorrenciaselect') tipoSelect: SelectComponent
+  @ViewChild('autocomplete') autocompleteInput: AutoComplete;
+  @ViewChild('dpselect') dpSelect: SelectComponent;
+  @ViewChild('tipoocorrenciaselect') tipoSelect: SelectComponent;
 
-  ocorrenciaEmEdicao: Ocorrencia
-  editMode: boolean = false
+  ocorrenciaEmEdicao: Ocorrencia;
+  editMode = false;
 
 
 
-  placaPattern = [/[A-Z]/i,/[A-Z]/i,/[A-Z]/i,'-',/\d/,/\d/,/\d/,/\d/]
+  placaPattern = [/[A-Z]/i, /[A-Z]/i, /[A-Z]/i, '-', /\d/, /\d/, /\d/, /\d/];
 
-  numeroPattern = numeroCasaP
+  numeroPattern = numeroCasaP;
 
-  chassisPattern = chassisP
+  chassisPattern = chassisP;
 
-  numberPattern = /^[0-9]*$/
+  numberPattern = /^[0-9]*$/;
 
-  anoveiculoPattern= anoVeiculoP
+  anoveiculoPattern= anoVeiculoP;
 
-  numeroOcorrenciaPattern = numeroOcorrenciaP
+  numeroOcorrenciaPattern = numeroOcorrenciaP;
 
-  veiculoOptions: SelectOption[]=[
+  veiculoOptions: SelectOption[]= [
     {option: 'Carro', value: 'CARRO'},
     {option: 'Moto', value: 'MOTO'},
     {option: 'Triciculo', value: 'TRICICULO'},
     {option: 'Outros', value: 'OUTROS'}
-  ]
+  ];
 
-  dpOptions: SelectOption[] = [ ]
+  dpOptions: SelectOption[] = [ ];
 
-  ocorrenciaOptions: SelectOption[] = [ ]
+  ocorrenciaOptions: SelectOption[] = [ ];
 
   text: string;
 
-  results: Proprietario[]
+  results: Proprietario[];
 
-  ocorrenciaForm: FormGroup
-  nomeProp: FormControl
-  contatoProp: FormControl
-  numeroOcorrenciaProp: FormControl
-  localOcorrenciaProp: FormControl
-  observacoesProp: FormControl
-  placaProp: FormControl
-  anoVeiculoProp: FormControl
-  chassisProp: FormControl
-  numeroMotorProp: FormControl
-  corProp: FormControl
-  tipoVeiculoProp: FormControl
-  dpProp: FormControl
-  tipoOcorrenciaProp: FormControl
-  dataProp: FormControl
+  ocorrenciaForm: FormGroup;
+  nomeProp: FormControl;
+  contatoProp: FormControl;
+  numeroOcorrenciaProp: FormControl;
+  localOcorrenciaProp: FormControl;
+  observacoesProp: FormControl;
+  placaProp: FormControl;
+  anoVeiculoProp: FormControl;
+  chassisProp: FormControl;
+  numeroMotorProp: FormControl;
+  corProp: FormControl;
+  tipoVeiculoProp: FormControl;
+  dpProp: FormControl;
+  tipoOcorrenciaProp: FormControl;
+  dataProp: FormControl;
 
 
-  selectedProp: Proprietario = null
-  passedOco: Ocorrencia = null
+  selectedProp: Proprietario = null;
+  passedOco: Ocorrencia = null;
 
   constructor(private ocorrenciasService: OcorrenciasService,
               private formBuilder: FormBuilder,
@@ -84,42 +84,42 @@ export class EdicaoOcorrenciaComponent implements OnInit {
 
   }
 
-  initializeInEditMode(ocorrencia: Ocorrencia){
+  initializeInEditMode(ocorrencia: Ocorrencia) {
 
     this.ocorrenciasService.getProprietario(ocorrencia.veiculo.proprietario.nome).subscribe(
       result => this.results = result
-    )
-    this.setValues(ocorrencia)
+    );
+    this.setValues(ocorrencia);
     this.autocompleteInput.inputEL.nativeElement.value = ocorrencia.veiculo.proprietario.nome;
-    this.dpSelect.setValue(ocorrencia.dp.id)
-    this.tipoSelect.setValue(ocorrencia.tipo.id)
-    this.selectedProp = ocorrencia.veiculo.proprietario
-    this.passedOco = ocorrencia
-    console.log(this.ocorrenciaForm.errors)
+    this.dpSelect.setValue(ocorrencia.dp.id);
+    this.tipoSelect.setValue(ocorrencia.tipo.id);
+    this.selectedProp = ocorrencia.veiculo.proprietario;
+    this.passedOco = ocorrencia;
+    console.log(this.ocorrenciaForm.errors);
   }
 
-  setValues(ocorrencia: Ocorrencia){
+  setValues(ocorrencia: Ocorrencia) {
 
-    this.contatoProp.setValue(ocorrencia.veiculo.proprietario.contato)
-    this.nomeProp.setValue(ocorrencia.veiculo.proprietario.nome)
-    this.numeroOcorrenciaProp.setValue(ocorrencia.numeroOcorrencia)
-    this.localOcorrenciaProp.setValue(ocorrencia.localOcorrencia)
-    this.observacoesProp.setValue(ocorrencia.observacoes)
-    this.placaProp.setValue(ocorrencia.veiculo.placa)
-    this.anoVeiculoProp.setValue(ocorrencia.veiculo.ano)
-    this.chassisProp.setValue(ocorrencia.veiculo.chassis)
-    this.numeroMotorProp.setValue(ocorrencia.veiculo.chassis)
-    this.corProp.setValue(ocorrencia.veiculo.cor)
-    this.tipoVeiculoProp.setValue(ocorrencia.veiculo.tipo)
-    this.dpProp.setValue(ocorrencia.dp.id)
-    this.tipoOcorrenciaProp.setValue(ocorrencia.tipo)
-    this.dataProp.setValue(ocorrencia.data)
+    this.contatoProp.setValue(ocorrencia.veiculo.proprietario.contato);
+    this.nomeProp.setValue(ocorrencia.veiculo.proprietario.nome);
+    this.numeroOcorrenciaProp.setValue(ocorrencia.numeroOcorrencia);
+    this.localOcorrenciaProp.setValue(ocorrencia.localOcorrencia);
+    this.observacoesProp.setValue(ocorrencia.observacoes);
+    this.placaProp.setValue(ocorrencia.veiculo.placa);
+    this.anoVeiculoProp.setValue(ocorrencia.veiculo.ano);
+    this.chassisProp.setValue(ocorrencia.veiculo.chassis);
+    this.numeroMotorProp.setValue(ocorrencia.veiculo.chassis);
+    this.corProp.setValue(ocorrencia.veiculo.cor);
+    this.tipoVeiculoProp.setValue(ocorrencia.veiculo.tipo);
+    this.dpProp.setValue(ocorrencia.dp.id);
+    this.tipoOcorrenciaProp.setValue(ocorrencia.tipo);
+    this.dataProp.setValue(ocorrencia.data);
   }
 
 
   ngOnInit() {
-    this.contatoProp=this.formBuilder.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(80)])
-    this.nomeProp=this.formBuilder.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(450)])
+    this.contatoProp = this.formBuilder.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(80)]);
+    this.nomeProp = this.formBuilder.control('', [Validators.required, Validators.minLength(3), Validators.maxLength(450)]);
     this.numeroOcorrenciaProp = this.formBuilder.control('', [Validators.maxLength(50)]);
     this.localOcorrenciaProp = this.formBuilder.control('', [Validators.required, Validators.minLength(4), Validators.maxLength(450)]);
     this.observacoesProp = this.formBuilder.control('', [Validators.maxLength(450)]);
@@ -150,123 +150,119 @@ export class EdicaoOcorrenciaComponent implements OnInit {
     })
     this.ocorrenciasService.getAllDps().subscribe(dps => {
       dps.map(dp => {
-        this.dpOptions.push(new SelectOption(dp.nome, dp.id))
-      })
-    })
+        this.dpOptions.push(new SelectOption(dp.nome, dp.id));
+      });
+    });
     this.ocorrenciasService.getAllTipos().subscribe(tipos => {
       tipos.map(tipo => {
-        this.ocorrenciaOptions.push(new SelectOption(tipo.descricao, tipo.id))
-      })
-    })
+        this.ocorrenciaOptions.push(new SelectOption(tipo.descricao, tipo.id));
+      });
+    });
     this.nomeProp.valueChanges
     .debounceTime(500)
     .distinctUntilChanged()
     .switchMap(searchTerm => this.ocorrenciasService.getProprietario(searchTerm)
     .catch(error => Observable.from([])))
     .subscribe(proprietarios => {
-      this.results = proprietarios
-
-    })
-
-
+      this.results = proprietarios;
+    });
   }
 
-setProprietario(event){
+setProprietario(event) {
 
-  this.contatoProp.setValue(event.contato)
-  this.selectedProp = new Proprietario()
-  this.selectedProp.nome = event.nome
-  this.selectedProp.contato = event.contato
-  this.selectedProp.id = event.id
-  this.nomeProp.setValue(event.nome)
-  this.nomeProp.disable()
-  this.contatoProp.disable()
+  this.contatoProp.setValue(event.contato);
+  this.selectedProp = new Proprietario();
+  this.selectedProp.nome = event.nome;
+  this.selectedProp.contato = event.contato;
+  this.selectedProp.id = event.id;
+  this.nomeProp.setValue(event.nome);
+  this.nomeProp.disable();
+  this.contatoProp.disable();
 }
 
-clearProprietario(){
-  this.selectedProp = null
-  this.nomeProp.enable()
-  this.contatoProp.enable()
-  this.contatoProp.reset()
+clearProprietario() {
+  this.selectedProp = null;
+  this.nomeProp.enable();
+  this.contatoProp.enable();
+  this.contatoProp.reset();
 }
 
-salvaOcorrencia(values){
-  console.log(values)
+salvaOcorrencia(values) {
+  console.log(values);
   let dp: Dp = new Dp();
-  dp.id = values.dp
+  dp.id = values.dp;
 
 
-  let proprietario: Proprietario = new Proprietario()
-  if(!this.selectedProp){
-    proprietario.nome = values.nomeProprietario
-    proprietario.contato = values.contatoProprietario
-  }else{
-    proprietario.nome = values.nomeProprietario
-    proprietario.contato = values.contatoProprietario
-    proprietario.id = this.selectedProp.id
+  const proprietario: Proprietario = new Proprietario();
+  if (!this.selectedProp) {
+    proprietario.nome = values.nomeProprietario;
+    proprietario.contato = values.contatoProprietario;
+  } else {
+    proprietario.nome = values.nomeProprietario;
+    proprietario.contato = values.contatoProprietario;
+    proprietario.id = this.selectedProp.id;
   }
 
 
-  let veiculo: Veiculo = new Veiculo()
-  veiculo.ano = values.anoVeiculo
-  veiculo.chassis = values.chassis
-  veiculo.cor = values.cor
-  veiculo.numeroMotor = values.numeroMotor
-  veiculo.placa = values.placa
-  veiculo.id = this.passedOco.veiculo.id
-  veiculo.proprietario_id = proprietario.id
-  veiculo.tipo = values.tipoVeiculo
-  veiculo.proprietario = proprietario
+  const veiculo: Veiculo = new Veiculo();
+  veiculo.ano = values.anoVeiculo;
+  veiculo.chassis = values.chassis;
+  veiculo.cor = values.cor;
+  veiculo.numeroMotor = values.numeroMotor;
+  veiculo.placa = values.placa;
+  veiculo.id = this.passedOco.veiculo.id;
+  veiculo.proprietario_id = proprietario.id;
+  veiculo.tipo = values.tipoVeiculo;
+  veiculo.proprietario = proprietario;
 
 
-  let ocorrencia: Ocorrencia = new Ocorrencia()
-  ocorrencia.localOcorrencia = values.local
-  ocorrencia.numeroOcorrencia = values.numeroOcorrencia
-  ocorrencia.dp_id = values.dp
-  ocorrencia.tipo_id = values.tipoOcorrencia
-  ocorrencia.situacao = this.passedOco.situacao
-  ocorrencia.veiculo_id = values.veiculo
-  ocorrencia.data = values.data
-  ocorrencia.observacoes = values.observacoes
-  ocorrencia.id = this.passedOco.id
-  ocorrencia.veiculo = veiculo
-  console.log(values.tipoOcorrencia)
+  const ocorrencia: Ocorrencia = new Ocorrencia();
+  ocorrencia.localOcorrencia = values.local;
+  ocorrencia.numeroOcorrencia = values.numeroOcorrencia;
+  ocorrencia.dp_id = values.dp;
+  ocorrencia.tipo_id = values.tipoOcorrencia;
+  ocorrencia.situacao = this.passedOco.situacao;
+  ocorrencia.veiculo_id = values.veiculo;
+  ocorrencia.data = values.data;
+  ocorrencia.observacoes = values.observacoes;
+  ocorrencia.id = this.passedOco.id;
+  ocorrencia.veiculo = veiculo;
+  console.log(values.tipoOcorrencia);
 
-  if(this.selectedProp){
-    proprietario.nome = this.nomeProp.value
-    proprietario.contato = this.contatoProp.value
-    proprietario.id = this.selectedProp.id
-    console.log(proprietario)
+  if (this.selectedProp) {
+    proprietario.nome = this.nomeProp.value;
+    proprietario.contato = this.contatoProp.value;
+    proprietario.id = this.selectedProp.id;
+    console.log(proprietario);
 
     this.ocorrenciasService.updateProprietario(proprietario).subscribe(result => {
-      this.ocorrenciasService.updateVeiculo(ocorrencia.veiculo).subscribe(result => {
-        ocorrencia.veiculo_id=result.id
-        console.log(ocorrencia)
-        this.ocorrenciasService.updateOcorrencia(ocorrencia).subscribe(result => {
-        })
-      })
-    })
+      this.ocorrenciasService.updateVeiculo(ocorrencia.veiculo).subscribe(data => {
+        ocorrencia.veiculo_id = data.id;
+        console.log(ocorrencia);
+        this.ocorrenciasService.updateOcorrencia(ocorrencia).subscribe(x => {
+        });
+      });
+    });
 
-  }
-  else{
-      this.ocorrenciasService.registraProprietario(proprietario).subscribe(result =>{
-        veiculo.proprietario_id=result
-        this.ocorrenciasService.updateVeiculo(veiculo).subscribe(result => {
-          ocorrencia.veiculo_id = result.id
-          this.ocorrenciasService.updateOcorrencia(ocorrencia).subscribe(result => {
-          })
-        })
-      })
+  } else {
+      this.ocorrenciasService.registraProprietario(proprietario).subscribe(result => {
+        veiculo.proprietario_id = result;
+        this.ocorrenciasService.updateVeiculo(veiculo).subscribe(data => {
+          ocorrencia.veiculo_id = data.id;
+          this.ocorrenciasService.updateOcorrencia(ocorrencia).subscribe(x => {
+          });
+        });
+      });
     }
   }
 
 testaServico(){
-  let ocorrencias = {}
-  this.ocorrenciasService.getTwoOcorrencias('d8c6b91a-4895-4795-9069-899c3b381ea2','088222c2-4712-4c31-bbb8-6b005563aed3').subscribe(
+  const ocorrencias = {};
+  this.ocorrenciasService.getTwoOcorrencias('d8c6b91a-4895-4795-9069-899c3b381ea2', '088222c2-4712-4c31-bbb8-6b005563aed3').subscribe(
     data => {
-      this.notificationService.notify('Ocorrência Registrada!')
+      this.notificationService.notify('Ocorrência Registrada!');
       // console.log(ocorrencias)
     }
-  )
+  );
 }
 }
